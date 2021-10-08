@@ -1,0 +1,43 @@
+###Customer Sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+     "name": "Shree Ram",
+    "email": "dfdd@gmail.com",
+    "password": "Manakamana123",
+    "phone": "04212121212"
+}
+
+###Customer Sign In endpoint
+POST http://localhost:3001/v1/customer/login
+Content-Type: application/json
+
+{
+         "email": "dfdd@gmail.com",
+    "password": "Manakamana123"
+}
+
+###Get a Customer profile endpoint
+GET http://localhost:3001/v1/customer
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRmZGRAZ21haWwuY29tIiwiX2lkIjoiNjE1ZWY4Mjc4N2Y4OWNiMTQxMzI5MWEzIiwiaWF0IjoxNjMzNjE1MDg3LCJleHAiOjE2MzM2MTU5ODd9.AzFbl3zBDSOlhbEj2_z0tnZXm5-aEr8UZah4ujJRbwU
+
+
+### Token routers
+
+### Get refreshed tokens from
+GET http://localhost:3001/v1/tokens
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRmZGRAZ21haWwuY29tIiwiaWF0IjoxNjMzNjE1MTMyLCJleHAiOjE2MzUzNDMxMzJ9.gJPbH6J2uiZjjAJCkj99pioWLaon9xpyvl1BuJIdqjA
+
+      
+###Password reset endpoints
+POST http://localhost:3001/v1/user/reset-password
+Content-Type: application/json
+
+{
+    "email": "Sadhguru@gmail.com"
+}
+
+###User Logout Endpoint   
+DELETE http://localhost:3001/v1/customer/logout
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRmZGRAZ21haWwuY29tIiwiX2lkIjoiNjE1ZWY4Mjc4N2Y4OWNiMTQxMzI5MWEzIiwiaWF0IjoxNjMzNjE1MjczLCJleHAiOjE2MzM2MTYxNzN9.D5p6LWhmAl4H6NdmZyrdmzfqWAN6z0OtnG7Mtw3WIVI
