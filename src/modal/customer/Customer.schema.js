@@ -61,6 +61,10 @@ const CustomerSchema = new Schema({
         required: true,
         default: false,
       },
+      isAdmin: {
+        type: Boolean,
+        default: false,
+      },
 })
 
 module.exports = {

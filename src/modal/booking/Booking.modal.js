@@ -21,7 +21,7 @@ const getBookings = (clientId) => {
     return new Promise ((resolve, reject) => {
         try { 
             BookingSchema
-                .find({clientId})
+                .find({})
                 .then((data) => {
                     resolve(data)
                 })

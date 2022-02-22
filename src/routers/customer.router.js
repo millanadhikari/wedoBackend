@@ -28,7 +28,9 @@ router.post('/login', async (req, res) => {
 	// }
 
 
-
+    if(!user) {
+        return res.json({status:"error", message:"Invalid Email"})
+    }
 
     const passFromDb = user && user.id ? user.password : null
 

@@ -1,39 +1,41 @@
-const express = require('express')
-const router = express.Router();
-const { insertBooking, getBookings, getBookingById, updateBookingNotes } = require("../modal/booking/Booking.modal")
-const { userAuthorization } = require("../middlewares/authorization.middleware")
+    const express = require('express')
+    const router = express.Router();
+    const { insertBooking, getBookings, getBookingById, updateBookingNotes } = require("../modal/booking/Booking.modal")
+    const { userAuthorization } = require("../middlewares/authorization.middleware")
 
-router.all('/', (req, res, next) => {
+    router.all('/', (req, res, next) => {
 
-    // res.json({message:"Booking details"});
+        // res.json({message:"Booking details"});
 
 
-    next()
+        next()
 })
 
 
 // Adding a new booking
 
 router.post("/", userAuthorization, async (req, res) => {
-   
+
     try {
-        const { name, email, street, suburb, postcode, state, phone, bookingDate } = req.body
+        const { name, email, address, phone, bookingDate, products, totalPrice, paidStatus, jobStatus, stripeData } = req.body
         const userId = req.userId
 
         const bookingObj = {
             clientId: userId,
             name,
             email,
-            street,
-            suburb,
-            postcode,
-            state,
+            address,
             phone,
-            bookingDate
+            totalPrice, 
+            paidStatus, 
+            jobStatus,
+            bookingDate,
+            products,
+            stripeData
         }
         console.log(bookingObj)
         const result = await insertBooking(bookingObj)
-        
+
 
         if (result._id) {
             return res.json({ status: "success", message: "Booking has been created!!!" })
@@ -64,13 +66,49 @@ router.post("/", userAuthorization, async (req, res) => {
 
 //Get all the bookings for a specific user
 
+router.get("/all",  async (req, res) => {
+   const page = req.query.page
+   const limit = req.query.limit
+
+   const startIndex = (page - 1) * limit
+   const endIndex = page * limit
+    try {
+      const userId = req.userId;
+      const result = await getBookings(userId);
+
+
+      next = {
+          page:page * 1 + 1,
+          limit : limit,
+         
+      }
+
+      previous = {
+        page:page - 1,
+        limit : limit,
+       
+    }
+      paginatedResults = result.slice(startIndex, endIndex)
+      totalPages = Math.ceil(result.length / limit)
+      
+      return res.json({
+        status:"success",
+        next,
+        totalPages,
+        previous,
+        paginatedResults
+      });
+    } catch (error) {
+      res.json({ status: "error", message: error.message });
+    }
+  });
 router.get("/:_id", userAuthorization, async (req, res) => {
     try {
-        
+
 
         const clientId = req.userId;
         const result = await getBookingById(clientId);
-  
+
 
         return res.json({
             status: "success",
@@ -87,7 +125,7 @@ router.put("/:_id", userAuthorization, async (req, res) => {
     try {
         const { modifier, updates, name, email, street, suburb, postcode, state, phone, bookingDate } = req.body
         const { _id } = req.params;
-   
+
         const userId = req.userId
 
         const updatedBookingObj = {
@@ -103,17 +141,17 @@ router.put("/:_id", userAuthorization, async (req, res) => {
             modifier,
             updates
         }
-        
+
 
         const result = await updateBookingNotes(updatedBookingObj);
 
         if (result._id) {
-                return res.json({
+            return res.json({
                 status: "success",
-                message:"your bookings updated",
+                message: "your bookings updated",
             });
         }
-        res.json({ status: "error", message: "Unable to update your message please try again later"})
+        res.json({ status: "error", message: "Unable to update your message please try again later" })
 
     } catch (error) {
         res.json({ status: "error", message: error.message });

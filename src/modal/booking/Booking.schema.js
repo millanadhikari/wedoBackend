@@ -13,26 +13,13 @@ const BookingSchema = new Schema({
         maxlength: 50,
         trim: true
     },
-     street: {
-            type:String,
-            trim:true,
-            lowercase: true
-        },
-        suburb: {
-            type:String,
-            trim:true,
-            lowercase: true
-        },
-        postcode: {
-            type:Number,
-            trim:true,
-            lowercase: true
-        },
-        state: {
-            type:String,
-            trim:true,
-            lowercase: true
-        },   
+    address : {
+        
+    },
+    products: [
+       
+    ],
+    stripeData:[],
     email: {
         type: String,
         trim: true,
@@ -58,10 +45,11 @@ const BookingSchema = new Schema({
         trim: true,
         lowercase: true,
     },
-    additionalService: {
-        type: String,
+    totalPrice: {
+        type: Number,
         trim: true,
         lowercase: true,
+        required:true
     },
     paidStatus: {
         type: Boolean,
