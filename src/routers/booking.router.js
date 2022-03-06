@@ -102,6 +102,7 @@ router.get("/all",  async (req, res) => {
       res.json({ status: "error", message: error.message });
     }
   });
+   
 router.get("/:_id", userAuthorization, async (req, res) => {
     try {
 
