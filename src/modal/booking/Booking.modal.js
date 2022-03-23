@@ -3,20 +3,15 @@ const {BookingSchema} = require ('./Booking.schema')
 
 const insertBooking = (bookingObj) => {
     return new Promise ((resolve, reject) => {
-        try { 
             BookingSchema(bookingObj)
                 .save()
-                .then((data) => {
-                    resolve(data)
-                })
-                .catch((error) => reject(error))
-
-        } catch (error) {
-            reject(error)
-        }
-    })
-}
-
+                .then((data) => resolve(data))
+                .catch(error=> reject(console.log(error)));
+            
+            
+        })
+    
+    }
 const getBookings = (clientId) => {
     return new Promise ((resolve, reject) => {
         try { 

@@ -53,10 +53,10 @@ router.post('/login', async (req, res) => {
 
 
 // Get customer profile routers
-router.get("/", userAuthorization, async (req, res) => {
+router.get("/_:id", userAuthorization, async (req, res) => {
     //this data coming from database
 
-    const _id = req.userId
+    const _id = req.params
 
     const userProf = await getCustomerById(_id)
     const { name, email } = userProf;

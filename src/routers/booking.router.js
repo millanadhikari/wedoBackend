@@ -14,7 +14,8 @@
 
 // Adding a new booking
 
-router.post("/", userAuthorization, async (req, res) => {
+router.post("/",  async (req, res) => {
+    console.log(req.body)
 
     try {
         const { name, email, address, phone, bookingDate, products, totalPrice, paidStatus, jobStatus, stripeData } = req.body
@@ -33,7 +34,6 @@ router.post("/", userAuthorization, async (req, res) => {
             products,
             stripeData
         }
-        console.log(bookingObj)
         const result = await insertBooking(bookingObj)
 
 

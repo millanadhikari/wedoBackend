@@ -31,7 +31,7 @@ const BookingSchema = new Schema({
         }
     },
     bookingDate: {
-        type: Date,
+        type: String,
         trim: true,
 
     },
@@ -61,7 +61,7 @@ const BookingSchema = new Schema({
         default: "Waiting for confirmation"
     },
     phone: {
-        type: Number,
+        type: String,
         maxlength: 30,
         
      
@@ -80,7 +80,7 @@ const BookingSchema = new Schema({
             updates: {
                 type: String,
                 maxlength : 1000,
-                default: "",
+                default: "",        
                 },
             }
         }
