@@ -10,7 +10,7 @@ const send = (info) => {
                 service: "gmail",
                 auth: {
                     user: "wedocleaning99@gmail.com",
-                    pass: "Manakamana123"
+                    pass: "yprkdbxnjgtatkyg"
                 }
             })
 
