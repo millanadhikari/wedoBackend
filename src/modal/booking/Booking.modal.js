@@ -27,10 +27,10 @@ const getBookings = (clientId) => {
         }
     })
 }
-const getBookingById = (clientId) => {
+const getBookingById = (_id) => {
     return new Promise((resolve, reject) => {
       try {
-        BookingSchema.find({ clientId })
+        BookingSchema.find({ _id })
           .then((data) => resolve(data))
           .catch((error) => reject(error));
       } catch (error) {

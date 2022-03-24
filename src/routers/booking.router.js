@@ -2,6 +2,7 @@
     const router = express.Router();
     const { insertBooking, getBookings, getBookingById, updateBookingNotes } = require("../modal/booking/Booking.modal")
     const { userAuthorization } = require("../middlewares/authorization.middleware")
+    const {bookingEmailProcessor} = require("../helpers/email.helper")
 
     router.all('/', (req, res, next) => {
 
@@ -35,13 +36,13 @@ router.post("/",  async (req, res) => {
             stripeData
         }
         const result = await insertBooking(bookingObj)
-
-
+        // result.paidStatus && await bookingEmailProcessor(bookingObj)
+    
         if (result._id) {
-            return res.json({ status: "success", message: "Booking has been created!!!" })
+            await bookingEmailProcessor({bookingObj})
         }
 
-        res.json({ status: "error", message: "Unable to create new Booking Again, please try again later" })
+        res.json({ status: "success", message: "New booking created successfully!!!" })
 
     }
     catch (error) {
@@ -104,11 +105,13 @@ router.get("/all",  async (req, res) => {
   });
    
 router.get("/:_id", userAuthorization, async (req, res) => {
+    const { _id } = req.params;
+
     try {
 
 
         const clientId = req.userId;
-        const result = await getBookingById(clientId);
+        const result = await getBookingById(_id);
 
 
         return res.json({
