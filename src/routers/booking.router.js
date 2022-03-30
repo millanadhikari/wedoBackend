@@ -103,7 +103,8 @@ router.get("/all",  async (req, res) => {
       res.json({ status: "error", message: error.message });
     }
   });
-   
+
+// Get a booking by its id
 router.get("/:_id", userAuthorization, async (req, res) => {
     const { _id } = req.params;
 

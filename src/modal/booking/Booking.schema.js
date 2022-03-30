@@ -51,6 +51,11 @@ const BookingSchema = new Schema({
         lowercase: true,
         required:true
     },
+    addonPrice: {
+        type: Number,
+        trim: true,
+        lowercase: true,
+    },
     paidStatus: {
         type: Boolean,
         default: false
