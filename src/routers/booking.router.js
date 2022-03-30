@@ -1,45 +1,67 @@
-    const express = require('express')
-    const router = express.Router();
-    const { insertBooking, getBookings, getBookingById, updateBookingNotes } = require("../modal/booking/Booking.modal")
-    const { userAuthorization } = require("../middlewares/authorization.middleware")
-    const {bookingEmailProcessor} = require("../helpers/email.helper")
+const express = require('express')
+const router = express.Router();
+const { insertBooking, getBookings, getBookingById, updateBookingNotes } = require("../modal/booking/Booking.modal")
+const { userAuthorization } = require("../middlewares/authorization.middleware")
+const { bookingEmailProcessor } = require("../helpers/email.helper")
 
-    router.all('/', (req, res, next) => {
+router.all('/', (req, res, next) => {
 
-        // res.json({message:"Booking details"});
+    // res.json({message:"Booking details"});
 
 
-        next()
+    next()
 })
 
 
 // Adding a new booking
 
-router.post("/",  async (req, res) => {
+router.post("/", async (req, res) => {
     console.log(req.body)
 
     try {
-        const { name, email, address, phone, bookingDate, products, totalPrice, paidStatus, jobStatus, stripeData } = req.body
+        const {
+            name,
+            email,
+            bookingDate,
+            selectedService,
+            address,
+            postcode,
+            phone,
+            toilets,
+            bedrooms,
+            addonPrice,
+            totalPrice,
+            products,
+            stripeData,
+            paidStatus,
+            jobStatus
+        
+        } = req.body
         const userId = req.userId
 
         const bookingObj = {
             clientId: userId,
             name,
             email,
-            address,
-            phone,
-            totalPrice, 
-            paidStatus, 
-            jobStatus,
             bookingDate,
+            selectedService,
+            address,
+            postcode,
+            phone,
+            toilets,
+            bedrooms,
+            addonPrice,
+            totalPrice,
             products,
-            stripeData
+            stripeData,
+            paidStatus,
+            jobStatus
         }
         const result = await insertBooking(bookingObj)
         // result.paidStatus && await bookingEmailProcessor(bookingObj)
-    
+
         if (result._id) {
-            await bookingEmailProcessor({bookingObj})
+            await bookingEmailProcessor({ bookingObj })
         }
 
         res.json({ status: "success", message: "New booking created successfully!!!" })
@@ -67,42 +89,42 @@ router.post("/",  async (req, res) => {
 
 //Get all the bookings for a specific user
 
-router.get("/all",  async (req, res) => {
-   const page = req.query.page
-   const limit = req.query.limit
+router.get("/all", async (req, res) => {
+    const page = req.query.page
+    const limit = req.query.limit
 
-   const startIndex = (page - 1) * limit
-   const endIndex = page * limit
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
     try {
-      const userId = req.userId;
-      const result = await getBookings(userId);
+        const userId = req.userId;
+        const result = await getBookings(userId);
 
 
-      next = {
-          page:page * 1 + 1,
-          limit : limit,
-         
-      }
+        next = {
+            page: page * 1 + 1,
+            limit: limit,
 
-      previous = {
-        page:page - 1,
-        limit : limit,
-       
-    }
-      paginatedResults = result.slice(startIndex, endIndex)
-      totalPages = Math.ceil(result.length / limit)
-      
-      return res.json({
-        status:"success",
-        next,
-        totalPages,
-        previous,
-        paginatedResults
-      });
+        }
+
+        previous = {
+            page: page - 1,
+            limit: limit,
+
+        }
+        paginatedResults = result.slice(startIndex, endIndex)
+        totalPages = Math.ceil(result.length / limit)
+
+        return res.json({
+            status: "success",
+            next,
+            totalPages,
+            previous,
+            paginatedResults
+        });
     } catch (error) {
-      res.json({ status: "error", message: error.message });
+        res.json({ status: "error", message: error.message });
     }
-  });
+});
 
 // Get a booking by its id
 router.get("/:_id", userAuthorization, async (req, res) => {
