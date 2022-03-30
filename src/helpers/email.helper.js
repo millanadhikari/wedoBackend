@@ -35,7 +35,7 @@ const bookingEmailProcessor = ({ bookingObj }) => {
     let info = "";
     info = {
         from: 'WEDO CLEANING SERVICES" <wedocleaning99@gmail.com>', // sender address
-        to: 'millanadhikari@gmail.com', // list of receivers
+        to: bookingObj.email, // list of receivers
         subject: "Booking Confirmation", // Subject line
         text:
             "I am pleased to contact you for booking confirmation End of Lease Cleaning service, below are the details you’ve provided.", // plain text body
