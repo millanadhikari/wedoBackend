@@ -9,7 +9,9 @@ router.all('/', (req, res, next) => {
 
 
 router.post("/", async (req, res) => {
-  const { items } = req.body;
+  
+ const {amount} = req.body
+ console.log(amount)
 
   const customer = await stripe.customers.create();
 
@@ -17,7 +19,7 @@ router.post("/", async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
     customer: customer.id,
     setup_future_usage: "off_session",
-    amount: 200,
+    amount: amount,
     currency: "aud",
     automatic_payment_methods: {
       enabled: true,
