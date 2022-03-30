@@ -32,6 +32,7 @@ const send = (info) => {
 };
 
 const bookingEmailProcessor = ({ bookingObj }) => {
+     console.log('ld', bookingObj)
     let info = "";
     info = {
         from: 'WEDO CLEANING SERVICES" <wedocleaning99@gmail.com>', // sender address
@@ -44,12 +45,12 @@ const bookingEmailProcessor = ({ bookingObj }) => {
         <h3>Selected Service: ${bookingObj.selectedService} </h3>
         <p>Bedrooms: ${bookingObj.bedrooms}  </p>
         <p>Bathrooms: ${bookingObj.toilets} </p>
-        <p>Addons Selected:${bookingObj.products.map((item) => item.title)}</p>
       <p style={{fontWeight:"semibold"}}>Full Name: ${bookingObj.name}</p> 
       <p>Email: ${bookingObj.email}</p>
       <p>Phone: ${bookingObj.phone}</p>
-      <p>Address: ${bookingObj.address}</p>
-      <p>As information provided for the property with ${bookingObj.bedrooms} bedroom & ${bookingObj.toilets} required will cost you ${booking.totalPrice}, this is a rough estimate as we have not inspected the property yet. </p>
+      <p>Address:${bookingObj.address} </p>
+      <p>As information provided for the property with  bedroom & required will cost you ${bookingObj.totalPrice}, 
+      this is a rough estimate as we have not inspected the property yet. </p>
       <p>Please note: This quote price (${bookingObj.totalPrice}) may only vary if the property condition is not met.</p>
       <p>Our cleaning team will inform the final price for approval, if massive changes need to be done before starting the job.
       Our Team will notify you an hour before arrival to property. If any thing changes on your end please let us know.  
