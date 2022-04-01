@@ -73,13 +73,11 @@ const bookingEmailProcessor = ({ bookingObj }) => {
         html: `<p>Hello</p>`,
         amp: `
         <!doctype html>
-        <html ⚡>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <meta name="description" content="This is the AMP Boilerplate.">
-    <link rel="preload" as="script" href="https://cdn.ampproject.org/v0.js">
-    <script async src="https://cdn.ampproject.org/v0.js"></script>
+        <html ⚡4email data-css-strict>
+        <head>
+          <meta charset="utf-8">
+          <script async src="https://cdn.ampproject.org/v0.js"></script>
+          <style amp4email-boilerplate>body{visibility:hidden}</style>
     <style amp-custom>
       .container {
           font-size: 16px;
