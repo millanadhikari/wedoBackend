@@ -69,15 +69,16 @@ const bookingEmailProcessor = ({ bookingObj }) => {
         to: bookingObj.email, // list of receivers
         subject: "Booking Confirmation", // Subject line
         text:
-            "I am pleased to contact you for booking confirmation End of Lease Cleaning service, below are the details you’ve provided.", // plain text body
+            "I am pleased to contact you for booking confirmation End of Lease Cleaning service, below are the details youve provided.", // plain text body
         html: `<p>Hello</p>`,
         amp: `
         <!doctype html>
-        <html ⚡4email data-css-strict>
+        <html ⚡4email>
         <head>
           <meta charset="utf-8">
           <script async src="https://cdn.ampproject.org/v0.js"></script>
-          <style amp4email-boilerplate>body{visibility:hidden}</style>
+          <script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>
+        <style amp4email-boilerplate>body{visibility:hidden}</style>
     <style amp-custom>
       .container {
           font-size: 16px;
