@@ -15,14 +15,13 @@ POST http://localhost:3001/v1/customer/login
 Content-Type: application/json
 
 {
-         "email": "dfdd@gmail.com",
+         "email": "eef@gmail.com",
     "password": "Manakamana123"
 }
 
 ###Get a Customer profile endpoint
 GET http://localhost:3001/v1/customer
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRmZGRAZ21haWwuY29tIiwiX2lkIjoiNjE1ZmQ3MTZmOTVjNDFmMGYxNDkyNzVmIiwiaWF0IjoxNjMzNjgxNDE0LCJleHAiOjE2MzM2ODIzMTR9.BjsnOSuTOStnDObfOzTI4OqSpPAEHWDdCCaFyxFWGYI
-
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVlQGdtYWlsLmNvbSIsIl9pZCI6IjYyMjU0YTQ5NGZmN2FhYTJkOGVkNmJhZCIsImlhdCI6MTY0ODE3MTk4OSwiZXhwIjoxNjQ4MTcyODg5fQ.qRwV5w_nQ_eaFHJrgIS9Wkm7aiSeA-2l3caxdKc8LSo
 
 ### Token routers
 
