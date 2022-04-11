@@ -64,13 +64,16 @@ router.get("/", userAuthorization, async (req, res) => {
     const _id = req.userId
 
     const userProf = await getCustomerById(_id)
-    const { name, email } = userProf;
+    const { isAdmin, isCustomer, name, email } = userProf;
 
     res.json({
         user: {
             _id,
             name,
             email,
+            isAdmin,
+            isCustomer
+
         },
     });
 });
@@ -79,7 +82,7 @@ router.get("/", userAuthorization, async (req, res) => {
 
 // User Sign up with Email and Password
 router.post('/', async (req, res) => {
-    const { name, phone, email, password } = req.body
+    const { name, phone, email, password, isCustomer, isAdmin } = req.body
     try {
         //hash password
         const hashPass = await hashPassword(password)
@@ -88,6 +91,8 @@ router.post('/', async (req, res) => {
             phone,
             email,
             password: hashPass,
+            isCustomer,
+            isAdmin
         }
 
 
