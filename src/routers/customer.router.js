@@ -51,7 +51,12 @@ router.post('/login', async (req, res) => {
     res.json({ status: "success", message: "Login success", accessJWT, refreshJWT })
 })
 
+// router.get("/auth/me", (req, res) => {
+//     console.log("get me")
+//     try { 
 
+//     }
+// })
 // Get customer profile routers
 router.get("/", userAuthorization, async (req, res) => {
     //this data coming from database
