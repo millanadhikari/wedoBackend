@@ -7,7 +7,9 @@ Content-Type: application/json
      "name": "Shree Ram",
     "email": "dfdd@gmail.com",
     "password": "Manakamana123",
-    "phone": "04212121212"
+    "phone": "04212121212",
+    "isCustomer": "true",
+    "isAdmin": "false"
 }
 
 ###Customer Sign In endpoint
@@ -15,13 +17,13 @@ POST http://localhost:3001/v1/customer/login
 Content-Type: application/json
 
 {
-         "email": "eef@gmail.com",
+         "email": "dfdd@gmail.com",
     "password": "Manakamana123"
 }
 
 ###Get a Customer profile endpoint
 GET http://localhost:3001/v1/customer
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVlQGdtYWlsLmNvbSIsIl9pZCI6IjYyMjU0YTQ5NGZmN2FhYTJkOGVkNmJhZCIsImlhdCI6MTY0ODE3MTk4OSwiZXhwIjoxNjQ4MTcyODg5fQ.qRwV5w_nQ_eaFHJrgIS9Wkm7aiSeA-2l3caxdKc8LSo
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRmZGRAZ21haWwuY29tIiwiX2lkIjoiNjIyNTRhNDk0ZmY3YWFhMmQ4ZWQ2YmFkIiwiaWF0IjoxNjU3ODQ1Nzk2LCJleHAiOjE2NTc4NDY2OTZ9.lUMmacHth8WWlZ72zCyLjKMorcNETYfLGqSu_L79QxE
 
 ### Token routers
 

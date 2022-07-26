@@ -35,13 +35,14 @@ const customerRouter = require("./src/routers/customer.router")
 const tokensRouter = require("./src/routers/tokens.router.js");
 const paymentRouter = require("./src/routers/stripe.router")
 const spaceRouter = require("./src/routers/space.router")
+const quoteRouter = require("./src/routers/quote.router")
 
 app.use("/v1/space", spaceRouter);
 app.use("/v1/booking", bookingRouter);
 app.use("/v1/customer", customerRouter)
 app.use("/v1/tokens", tokensRouter);
 app.use("/v1/payment", paymentRouter);
-
+app.use("/v1/quote", quoteRouter)
 
 
 

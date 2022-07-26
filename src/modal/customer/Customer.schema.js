@@ -69,6 +69,22 @@ const CustomerSchema = new Schema({
         type: Boolean,
         default: true,
       },
+      address:{
+        type: String,
+        trim: true,
+
+      },
+      postcode:{
+        type: String,
+        trim: true,
+
+      },
+    
+      state:{
+        type: String,
+        trim: true,
+
+      }
 })
 
 module.exports = {

@@ -87,7 +87,26 @@ const getCustomerByEmail = email => {
               }
             });
           };
-          
+          const updateCustomerDetails = (updateBookingObj) => {
+            console.log('hey', updateBookingObj)
+            return new Promise((resolve, reject) => {
+              try {
+                CustomerSchema.findOneAndUpdate(
+                  updateBookingObj._id,
+                  {
+                    $set: updateBookingObj
+                  },
+                
+                    {new:true }
+                    )
+                  .then((data) => resolve(data))
+                 
+                  .catch((error) => console.log(error));
+              } catch (error) {
+                console.log(error);
+              }
+            });
+          };
 
 
 module.exports = {
@@ -95,6 +114,7 @@ module.exports = {
     getCustomerByEmail,
     storeUserRefreshJWT,
     getCustomerById,
-    verifyUser
+    verifyUser, 
+    updateCustomerDetails
     
 }

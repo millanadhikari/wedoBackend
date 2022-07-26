@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const { insertCustomer, getCustomerByEmail, getCustomerById, storeUserRefreshJWT, verifyUser } = require("../modal/customer/Customer.model")
+const { insertCustomer, getCustomerByEmail, getCustomerById, storeUserRefreshJWT, verifyUser, updateCustomerDetails } = require("../modal/customer/Customer.model")
 const { hashPassword, comparePassword } = require("../helpers/bycrypt.helper")
 const { createAccessJWT, createRefreshJWT } = require("../helpers/jwt.helper")
 const { userAuthorization } = require("../middlewares/authorization.middleware")
@@ -64,15 +64,19 @@ router.get("/", userAuthorization, async (req, res) => {
     const _id = req.userId
 
     const userProf = await getCustomerById(_id)
-    const { isAdmin, isCustomer, name, email } = userProf;
-
+    const { isAdmin, isCustomer, name, email, address, phone, suburb, postcode } = userProf;
+    console.log(userProf)
     res.json({
         user: {
             _id,
             name,
             email,
             isAdmin,
-            isCustomer
+            isCustomer,
+            address,
+            phone,
+            suburb,
+            postcode
 
         },
     });
@@ -217,6 +221,41 @@ router.delete("/logout", userAuthorization, async (req, res) => {
 })
 
 
+router.put("/:_id",  async (req, res) => {
+    console.log(req.body)
+    try {
+        const { name, email, street, suburb, postcode, state, address, mobile } = req.body
+        const { _id } = req.params;
+
+        const userId = req.userId
+
+        const updatedBookingObj = {
+            clientId: _id,
+            name,
+            email,
+            street,
+            suburb,
+            postcode,
+            state,
+            address,
+            mobile
+        }
+
+
+        const result = await updateCustomerDetails(updatedBookingObj);
+
+        if (result._id) {
+            return res.json({
+                status: "success",
+                message: "your bookings updated",
+            });
+        }
+        res.status(300).json({ status: "error", message: "Unable to update your message please try again later" })
+
+    } catch (error) {
+        res.status(400).json({ status: "error", message: error.message });
+    }
+});
 
 
 
