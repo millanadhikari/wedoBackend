@@ -13,6 +13,20 @@ const insertQuote = (quoteObj) => {
     
     }
 
+    const getQuotes = (clientId) => {
+        return new Promise ((resolve, reject) => {
+            try { 
+                QuoteSchema
+                    .find({}, {name:1, email:1, phone:1, service:1})
+                    .then((data) => {
+                        resolve(data)
+                    })
+                    .catch((error) => reject(error))
+    
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
 
-
-module.exports = {insertQuote}
+module.exports = {insertQuote, getQuotes}

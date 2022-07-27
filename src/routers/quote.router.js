@@ -1,7 +1,7 @@
 
 
 const express = require('express');
-const { insertQuote } = require('../modal/quote/Quote.modal');
+const { insertQuote, getQuotes } = require('../modal/quote/Quote.modal');
 const router = express.Router();
 
 
@@ -79,5 +79,59 @@ router.post("/", async (req, res) => {
     }
 })
 
+//Get all the quotes for a specific user
+
+router.get("/all", async (req, res) => {
+    const page = req.query.page
+    const limit = req.query.limit
+    const search = req.query.search
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+    const keys = ["name", "email"]
+    const tsearch = (data) => {
+        return data.filter((item) => 
+        keys.some((key) => item[key].toLowerCase().includes(search))
+        )
+    }
+
+    try {
+        const userId = req.userId;
+        const result = await getQuotes(userId);
+
+
+        next = {
+            page: page * 1 + 1,
+            limit: limit,
+
+        }
+
+        previous = {
+            page: page - 1,
+            limit: limit,
+
+        }
+            let paginatedResults = result
+
+            if(search) {
+                paginatedResults = tsearch(result)
+            } else {
+            paginatedResults = result.slice(startIndex, endIndex)
+            }
+
+      
+             totalPages = Math.ceil(result.length / limit)
+
+        
+        return res.json({
+            status: "success",
+            next,
+            totalPages,
+            previous,
+            paginatedResults
+        });
+    } catch (error) {
+        res.json({ status: "error", message: error.message });
+    }
+});
 
 module.exports = router
