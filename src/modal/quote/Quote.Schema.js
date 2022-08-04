@@ -44,11 +44,7 @@ const QuoteSchema = new Schema({
         type: Number,
         default: false
     },
-    jobStatus: {
-        type: String,
-        maxlength: 30,
-        default: "Waiting for confirmation"
-    },
+   
     phone: {
         type:String,
         maxlength: 30,
@@ -91,6 +87,10 @@ const QuoteSchema = new Schema({
         type: Number,
         maxlength: 30,
     },
+    quoteReference:{
+        type:String,
+        default:'WD'
+    }
 
   
 

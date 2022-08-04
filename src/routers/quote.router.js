@@ -1,7 +1,8 @@
 
 
 const express = require('express');
-const { insertQuote, getQuotes } = require('../modal/quote/Quote.modal');
+const { userAuthorization } = require('../middlewares/authorization.middleware');
+const {getQuoteById, insertQuote, getQuotes, updateQuote, deleteQuote } = require('../modal/quote/Quote.modal');
 const router = express.Router();
 
 
@@ -15,6 +16,8 @@ router.all('/', (req, res, next) => {
     next()
 })
 
+
+//Create new Quote
 router.post("/", async (req, res) => {
     console.log(req.body)
 
@@ -133,5 +136,71 @@ router.get("/all", async (req, res) => {
         res.json({ status: "error", message: error.message });
     }
 });
+
+//Get Quote by id
+router.get("/:_id", async (req, res) => {
+    const { _id } = req.params;
+
+    try {
+
+
+        const clientId = req.userId;
+        const result = await getQuoteById(_id);
+
+
+        return res.json({
+            status: "success",
+            result,
+        });
+    } catch (error) {
+        res.json({ status: "error", message: error.message });
+    }
+});
+
+router.put("/:_id", async (req, res) => {
+    try {
+        // const { modifier, updates, name, email, street, suburb, postcode, state, phone, bookingDate } = req.body
+        const updateQuoteObj = req.body
+        const { _id } = req.params;
+
+
+        const userId = req.userId
+
+        const updatedBookingObj = {
+            clientId: _id,
+           updateQuoteObj
+        }
+
+
+        const result = await updateQuote(updatedBookingObj);
+
+        if (result._id) {
+            return res.json({
+                status: "success",
+                message: "your bookings updated",
+            });
+        }
+        res.json({ status: "error", message: "Unable to update your message please try again later" })
+
+    } catch (error) {
+        res.json({ status: "error", message: error.message });
+    }
+});
+      // Delete a quoet
+      router.delete("/:_id",  async (req, res) => {
+        try {
+          const { _id } = req.params;
+          const clientId = req.userId;
+      
+          const result = await deleteQuote({ _id, clientId });
+      
+          return res.json({
+            status: "success",
+            message: "The quote has been deleted",
+          });
+        } catch (error) {
+          res.json({ status: "error", message: error.message });
+        }
+      });
 
 module.exports = router
