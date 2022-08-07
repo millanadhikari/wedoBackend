@@ -2,9 +2,9 @@
 
 const express = require('express');
 const { userAuthorization } = require('../middlewares/authorization.middleware');
-const {getQuoteById, insertQuote, getQuotes, updateQuote, deleteQuote } = require('../modal/quote/Quote.modal');
+const { getQuoteById, insertQuote, getQuotes, updateQuote, deleteQuote } = require('../modal/quote/Quote.modal');
 const router = express.Router();
-
+const pdfService = require('../service/pdf-service')
 
 
 
@@ -42,12 +42,12 @@ router.post("/", async (req, res) => {
             steamBedroom,
             steamStairs,
 
-        
+
         } = req.body
         const userId = req.userId
 
         const quoteObj = {
-            name:fullName,
+            name: fullName,
             email,
             phone,
             service,
@@ -74,7 +74,7 @@ router.post("/", async (req, res) => {
             console.log(error)
         }
 
-        
+
 
     }
     catch (error) {
@@ -92,8 +92,8 @@ router.get("/all", async (req, res) => {
     const endIndex = page * limit
     const keys = ["name", "email"]
     const tsearch = (data) => {
-        return data.filter((item) => 
-        keys.some((key) => item[key].toLowerCase().includes(search))
+        return data.filter((item) =>
+            keys.some((key) => item[key].toLowerCase().includes(search))
         )
     }
 
@@ -113,18 +113,18 @@ router.get("/all", async (req, res) => {
             limit: limit,
 
         }
-            let paginatedResults = result
+        let paginatedResults = result
 
-            if(search) {
-                paginatedResults = tsearch(result)
-            } else {
+        if (search) {
+            paginatedResults = tsearch(result)
+        } else {
             paginatedResults = result.slice(startIndex, endIndex)
-            }
+        }
 
-      
-             totalPages = Math.ceil(result.length / limit)
 
-        
+        totalPages = Math.ceil(result.length / limit)
+
+
         return res.json({
             status: "success",
             next,
@@ -135,6 +135,32 @@ router.get("/all", async (req, res) => {
     } catch (error) {
         res.json({ status: "error", message: error.message });
     }
+});
+
+
+//Get a Quote PDF
+router.get("/aldi/:_id", async (req, res) => {
+    const { _id } = req.params
+    const stream = res.writeHead(200, {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment;filename=invoice.pdf`,
+    });
+    try {
+        await getQuoteById(_id).then((item) => {
+            console.log(item)
+            pdfService.buildPDF(
+                item[0],
+                (chunk) => stream.write(chunk),
+                () => stream.end()
+            );
+        })
+
+
+    } catch (error) {
+        res.json({ status: "error", message: error.message })
+    }
+    // console.log('hey')
+    // return res.json({ status: "hello" })
 });
 
 //Get Quote by id
@@ -157,6 +183,7 @@ router.get("/:_id", async (req, res) => {
     }
 });
 
+
 router.put("/:_id", async (req, res) => {
     try {
         // const { modifier, updates, name, email, street, suburb, postcode, state, phone, bookingDate } = req.body
@@ -168,7 +195,7 @@ router.put("/:_id", async (req, res) => {
 
         const updatedBookingObj = {
             clientId: _id,
-           updateQuoteObj
+            updateQuoteObj
         }
 
 
@@ -186,21 +213,22 @@ router.put("/:_id", async (req, res) => {
         res.json({ status: "error", message: error.message });
     }
 });
-      // Delete a quoet
-      router.delete("/:_id",  async (req, res) => {
-        try {
-          const { _id } = req.params;
-          const clientId = req.userId;
-      
-          const result = await deleteQuote({ _id, clientId });
-      
-          return res.json({
+// Delete a quote
+router.delete("/:_id", async (req, res) => {
+    try {
+        const { _id } = req.params;
+        const clientId = req.userId;
+
+        const result = await deleteQuote({ _id, clientId });
+
+        return res.json({
             status: "success",
             message: "The quote has been deleted",
-          });
-        } catch (error) {
-          res.json({ status: "error", message: error.message });
-        }
-      });
+        });
+    } catch (error) {
+        res.json({ status: "error", message: error.message });
+    }
+});
+
 
 module.exports = router

@@ -3,22 +3,22 @@ const Schema = mongoose.Schema;
 const validator = require('validator')
 
 const QuoteSchema = new Schema({
-   
+
     name: {
         type: String,
         required: true,
         maxlength: 50,
         trim: true
     },
-   
-   
+
+
     email: {
         type: String,
         trim: true,
         lowercase: true,
-       
+
     },
-   
+
     service: {
         type: String,
         trim: true,
@@ -33,66 +33,183 @@ const QuoteSchema = new Schema({
         type: Number,
         trim: true,
         lowercase: true,
-        
+
     },
-    balcony: {
-        type: Number,
-        trim: true,
-        lowercase: true,
-    },
-    separateToilet: {
-        type: Number,
-        default: false
-    },
-   
+    products: [
+        // {
+        //     balcony: {
+        //         _id: {
+        //             type: Schema.Types.ObjectId
+        //         },
+        //         quantity: Number,
+        //         price: {
+        //             type: Number,
+        //             default: 2000
+        //         },
+        //         item: {
+        //             type: String
+        //         }
+
+        //     }
+        // },
+        // {
+        //     separateToilet: {
+        //         _id: {
+        //             type: Schema.Types.ObjectId
+        //         },
+        //         quantity: {
+        //             type: Number
+        //         },
+        //         price: {
+        //             type: Number,
+        //             default: 2000
+        //         },
+        //         item: {
+        //             type: String
+        //         }
+        //     }
+        // },
+        // {
+        //     studyRoom: {
+        //         _id: {
+        //             type: Schema.Types.ObjectId
+        //         }, quantity: Number,
+        //         price: {
+        //             type: Number,
+        //             default: 2000
+        //         },
+        //         item: {
+        //             type: String
+        //         }
+        //     }
+        // },
+        // {
+        //     wallWash: {
+        //         _id: {
+        //             type: Schema.Types.ObjectId
+        //         }, quantity: Number,
+        //         price: {
+        //             type: Number,
+        //             default: 2000
+        //         },
+        //         item: {
+        //             type: String
+        //         }
+        //     }
+        // },
+        // {
+        //     fridge: {
+        //         _id: {
+        //             type: Schema.Types.ObjectId
+        //         }, quantity: Number,
+        //         price: {
+        //             type: Number,
+        //             default: 2000
+        //         },
+        //         item: {
+        //             type: String
+        //         }
+        //     }
+        // },
+        // {
+        //     garage: {
+        //         _id: {
+        //             type: Schema.Types.ObjectId
+        //         }, quantity: Number,
+        //         price: {
+        //             type: Number,
+        //             default: 2000
+        //         },
+        //         item: {
+        //             type: String
+        //         }
+        //     }
+        // },
+        // {
+        //     blinds: {
+        //         _id: {
+        //             type: Schema.Types.ObjectId
+        //         }, quantity: Number,
+        //         price: {
+        //             type: Number,
+        //             default: 2000
+        //         },
+        //         item: {
+        //             type: String
+        //         }
+        //     }
+        // },
+        // {
+        //     steamLiving: {
+        //         _id: {
+        //             type: Schema.Types.ObjectId
+        //         }, quantity: Number,
+        //         price: {
+        //             type: Number,
+        //             default: 2000
+        //         },
+        //         item: {
+        //             type: String
+        //         }
+        //     }
+        // },
+        // {
+        //     steamBedroom: {
+        //         _id: {
+        //             type: Schema.Types.ObjectId
+        //         }, quantity: Number,
+        //         price: {
+        //             type: Number,
+        //             default: 2000
+        //         },
+        //         item: {
+        //             type: String
+        //         }
+        //     }
+        // },
+        // {
+        //     steamHallway: {
+        //         _id: {
+        //             type: Schema.Types.ObjectId
+        //         },
+        //         quantity: Number,
+        //         price: {
+        //             type: Number,
+        //             default: 2000
+        //         },
+        //         item: {
+        //             type: String
+        //         }
+        //     }
+        // },
+        // {
+        //     studyStairs: {
+        //         _id: {
+        //             type: Schema.Types.ObjectId
+        //         },
+        //         quantity: Number,
+        //         price: {
+        //             type: Number,
+        //             default: 2000
+        //         },
+        //         item: {
+        //             type: String
+        //         }
+        //     }
+        // }
+    ],
+
     phone: {
-        type:String,
-        maxlength: 30,
-        
-     
-    },
-    studyRoom: {
-        type: Number,
+        type: String,
         maxlength: 30,
     },
-    wallWash: {
-        type: Number,
-        maxlength: 30,
-    },
-    fridge: {
-        type: Number,
-        maxlength: 30,
-    },
-    garage: {
-        type: Number,
-        maxlength: 30,
-    },
-    blinds: {
-        type: Number,
-        maxlength: 30,
-    },
-    steamLiving: {
-        type: Number,
-        maxlength: 30,
-    },
-    steamBedroom: {
-        type: Number,
-        maxlength: 30,
-    },
-    steamHallway: {
-        type: Number,
-        maxlength: 30,
-    },
-    studyStairs: {
-        type: Number,
-        maxlength: 30,
-    },
-    quoteReference:{
-        type:String,
-        default:'WD'
+
+    quoteReference: {
+        type: String,
+        default: 'WD'
     }
 
-  
+
 
 })
 
