@@ -33,12 +33,14 @@ function generateHeader(doc) {
     doc
         // .image("logo.png", 50, 45, { width: 50 })
         .fillColor("#444444")
-        .fontSize(20)
-        .text("WeDo Services", 110, 57)
+        .fontSize(16)
+        .text("WeDo Cleaning Services", 110, 50, { align: "right" })
         .fontSize(10)
-        .text("WeDo Cleaning Services", 200, 50, { align: "right" })
-        .text("90 The Boulevarde", 200, 65, { align: "right" })
-        .text("Strathfield, NSW, 2135", 200, 80, { align: "right" })
+        .text("www.wedocleaning.com.au", 200, 75, { align: "right" })
+        .text("wedocleaning99@gmail.com", 200, 90, { align: "right" })
+        .text("+61 415976451", 200, 105, { align: "right" })
+        .text("ABN: 92 299 193 092", 200, 120, { align: "right" })
+
         .moveDown();
 }
 
@@ -46,7 +48,7 @@ function generateCustomerInformation(doc, item) {
     doc
         .fillColor("#444444")
         .fontSize(20)
-        .text("Invoice", 50, 160);
+        .text("Quote", 50, 160);
 
     generateHr(doc, 185);
 
@@ -120,49 +122,48 @@ function generateInvoiceTable(doc, item) {
             position,
             maya.item,
             maya.description,
-            formatCurrency(maya.amount / maya.quantity),
+            formatCurrency(maya.amount),
             maya.quantity,
-            formatCurrency(maya.amount)
-        ): null
+            formatCurrency(maya.amount * maya.quantity)
+        ) : null
         maya.quantity >= 1 && generateHr(doc, position + 20);
     }
 
 
+    const subtotalPosition = invoiceTableTop + (i + 1) * 20;
+    generateTableRow(
+        doc,
+        subtotalPosition,
+        "",
+        "",
+        "Subtotal",
+        "",
+        formatCurrency(item.subtotal)
+    );
 
-    // const subtotalPosition = invoiceTableTop + (i + 1) * 30;
-    // generateTableRow(
-    //     doc,
-    //     subtotalPosition,
-    //     "",
-    //     "",
-    //     "Subtotal",
-    //     "",
-    //     formatCurrency(maya.subtotal)
-    // );
+    const paidToDatePosition = subtotalPosition + 20;
+    generateTableRow(
+        doc,
+        paidToDatePosition,
+        "",
+        "",
+        "Paid To Date",
+        "",
+        formatCurrency(item.paid)
+    );
 
-    // const paidToDatePosition = subtotalPosition + 20;
-    // generateTableRow(
-    //     doc,
-    //     paidToDatePosition,
-    //     "",
-    //     "",
-    //     "Paid To Date",
-    //     "",
-    //     formatCurrency(invoice.paid)
-    // );
-
-    // const duePosition = paidToDatePosition + 25;
-    // doc.font("Helvetica-Bold");
-    // generateTableRow(
-    //     doc,
-    //     duePosition,
-    //     "",
-    //     "",
-    //     "Balance Due",
-    //     "",
-    //     formatCurrency(invoice.subtotal - invoice.paid)
-    // );
-    // doc.font("Helvetica");
+    const duePosition = paidToDatePosition + 25;
+    doc.font("Helvetica-Bold");
+    generateTableRow(
+        doc,
+        duePosition,
+        "",
+        "",
+        "Balance Due",
+        "",
+        formatCurrency(item.subtotal - item.paid)
+    );
+    doc.font("Helvetica");
 }
 
 function buildPDF(item, dataCallback, endCallback) {

@@ -36,182 +36,35 @@ const QuoteSchema = new Schema({
 
     },
     products: [
-        // {
-        //     balcony: {
-        //         _id: {
-        //             type: Schema.Types.ObjectId
-        //         },
-        //         quantity: Number,
-        //         price: {
-        //             type: Number,
-        //             default: 2000
-        //         },
-        //         item: {
-        //             type: String
-        //         }
 
-        //     }
-        // },
-        // {
-        //     separateToilet: {
-        //         _id: {
-        //             type: Schema.Types.ObjectId
-        //         },
-        //         quantity: {
-        //             type: Number
-        //         },
-        //         price: {
-        //             type: Number,
-        //             default: 2000
-        //         },
-        //         item: {
-        //             type: String
-        //         }
-        //     }
-        // },
-        // {
-        //     studyRoom: {
-        //         _id: {
-        //             type: Schema.Types.ObjectId
-        //         }, quantity: Number,
-        //         price: {
-        //             type: Number,
-        //             default: 2000
-        //         },
-        //         item: {
-        //             type: String
-        //         }
-        //     }
-        // },
-        // {
-        //     wallWash: {
-        //         _id: {
-        //             type: Schema.Types.ObjectId
-        //         }, quantity: Number,
-        //         price: {
-        //             type: Number,
-        //             default: 2000
-        //         },
-        //         item: {
-        //             type: String
-        //         }
-        //     }
-        // },
-        // {
-        //     fridge: {
-        //         _id: {
-        //             type: Schema.Types.ObjectId
-        //         }, quantity: Number,
-        //         price: {
-        //             type: Number,
-        //             default: 2000
-        //         },
-        //         item: {
-        //             type: String
-        //         }
-        //     }
-        // },
-        // {
-        //     garage: {
-        //         _id: {
-        //             type: Schema.Types.ObjectId
-        //         }, quantity: Number,
-        //         price: {
-        //             type: Number,
-        //             default: 2000
-        //         },
-        //         item: {
-        //             type: String
-        //         }
-        //     }
-        // },
-        // {
-        //     blinds: {
-        //         _id: {
-        //             type: Schema.Types.ObjectId
-        //         }, quantity: Number,
-        //         price: {
-        //             type: Number,
-        //             default: 2000
-        //         },
-        //         item: {
-        //             type: String
-        //         }
-        //     }
-        // },
-        // {
-        //     steamLiving: {
-        //         _id: {
-        //             type: Schema.Types.ObjectId
-        //         }, quantity: Number,
-        //         price: {
-        //             type: Number,
-        //             default: 2000
-        //         },
-        //         item: {
-        //             type: String
-        //         }
-        //     }
-        // },
-        // {
-        //     steamBedroom: {
-        //         _id: {
-        //             type: Schema.Types.ObjectId
-        //         }, quantity: Number,
-        //         price: {
-        //             type: Number,
-        //             default: 2000
-        //         },
-        //         item: {
-        //             type: String
-        //         }
-        //     }
-        // },
-        // {
-        //     steamHallway: {
-        //         _id: {
-        //             type: Schema.Types.ObjectId
-        //         },
-        //         quantity: Number,
-        //         price: {
-        //             type: Number,
-        //             default: 2000
-        //         },
-        //         item: {
-        //             type: String
-        //         }
-        //     }
-        // },
-        // {
-        //     studyStairs: {
-        //         _id: {
-        //             type: Schema.Types.ObjectId
-        //         },
-        //         quantity: Number,
-        //         price: {
-        //             type: Number,
-        //             default: 2000
-        //         },
-        //         item: {
-        //             type: String
-        //         }
-        //     }
-        // }
     ],
+    timelines: [],
+    notes:[],
 
     phone: {
         type: String,
         maxlength: 30,
     },
-
+    subtotal: {
+        type: Number,
+        default: 0
+    },
+    paid: {
+        type: Number,
+        default: 0
+    },
+    invoice_inr: {
+        type: Number,
+        default: 12
+    },
     quoteReference: {
         type: String,
         default: 'WD'
-    }
-
-
-
-})
+    },
+    bookingReference:{
+        type:String
+    },
+}, { timestamps: true })
 
 module.exports = {
     QuoteSchema: mongoose.model("Quote", QuoteSchema),

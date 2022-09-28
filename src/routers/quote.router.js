@@ -172,7 +172,7 @@ router.get("/:_id", async (req, res) => {
 
         const clientId = req.userId;
         const result = await getQuoteById(_id);
-
+        
 
         return res.json({
             status: "success",
@@ -190,12 +190,9 @@ router.put("/:_id", async (req, res) => {
         const updateQuoteObj = req.body
         const { _id } = req.params;
 
-
-        const userId = req.userId
-
-        const updatedBookingObj = {
-            clientId: _id,
-            updateQuoteObj
+          const updatedBookingObj = {
+            _id,
+             updateQuoteObj
         }
 
 

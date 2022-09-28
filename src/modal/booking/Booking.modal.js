@@ -1,7 +1,11 @@
 const {BookingSchema} = require ('./Booking.schema')
 
 
-const insertBooking = (bookingObj) => {
+const insertBooking = async (bookingObj) => {
+  let maya = await getBookings()
+  laya = maya.length
+     bookingObj.bookingReference='WD' + laya + 1
+  console.log('hey', bookingObj)
     return new Promise ((resolve, reject) => {
             BookingSchema(bookingObj)
                 .save()

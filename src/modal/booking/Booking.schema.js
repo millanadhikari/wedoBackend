@@ -4,9 +4,9 @@ const validator = require('validator')
 
 
 const BookingSchema = new Schema({
-   clientId: {
-        type: Schema.Types.ObjectId
-    },
+//    clientId: {
+//         type: Schema.Types.ObjectId
+//     },
     name: {
         type: String,
         required: true,
@@ -16,9 +16,6 @@ const BookingSchema = new Schema({
     address : {
         
     },
-    products: [
-       
-    ],
     stripeData:[],
     email: {
         type: String,
@@ -35,27 +32,28 @@ const BookingSchema = new Schema({
         trim: true,
 
     },
-    primaryService: {
+    service: {
         type: String,
         trim: true,
         lowercase: true,
     },
-    secondaryService: {
-        type: String,
-        trim: true,
-        lowercase: true,
-    },
-    totalPrice: {
-        type: Number,
-        trim: true,
-        lowercase: true,
-        required:true
-    },
-    addonPrice: {
+    bedrooms: {
         type: Number,
         trim: true,
         lowercase: true,
     },
+    bathrooms: {
+        type: Number,
+        trim: true,
+        lowercase: true,
+
+    },
+    products: [
+
+    ],
+    timelines: [],
+    notes:[],
+
     paidStatus: {
         type: Boolean,
         default: false
@@ -68,8 +66,34 @@ const BookingSchema = new Schema({
     phone: {
         type: String,
         maxlength: 30,
+      
+    },
+    subtotal: {
+        type: Number,
+        default: 0
+    },
+    paid: {
+        type: Number,
+        default: 0
+    },
+    invoice_inr: {
+        type: Number,
+        default: 12
+    },
+    quoteReference: {
+        type: String,
+        default: 'WD'
+    },
+    quote_id: {
+        type: String,
         
-     
+    },
+    quoteCreatedAt:{
+        type:String,
+        },
+    bookingReference:{
+        type: String,
+        
     },
     modifiers : [
         {
@@ -91,7 +115,7 @@ const BookingSchema = new Schema({
         }
     ]
 
-})
+}, {timestamps:true})
 
 module.exports = {
     BookingSchema: mongoose.model("Booking", BookingSchema),

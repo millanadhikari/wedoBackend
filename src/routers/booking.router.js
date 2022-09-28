@@ -2,7 +2,8 @@ const express = require('express')
 const router = express.Router();
 const { insertBooking, getBookings, getBookingById, updateBookingNotes } = require("../modal/booking/Booking.modal")
 const { userAuthorization } = require("../middlewares/authorization.middleware")
-const { bookingEmailProcessor } = require("../helpers/email.helper")
+const { bookingEmailProcessor } = require("../helpers/email.helper");
+const { getQuoteById } = require('../modal/quote/Quote.modal');
 
 router.all('/', (req, res, next) => {
 
@@ -15,62 +16,100 @@ router.all('/', (req, res, next) => {
 
 // Adding a new booking
 
-router.post("/", async (req, res) => {
-    console.log(req.body)
+// router.post("/", async (req, res) => {
+//     console.log(req.body)
 
-    try {
-        const {
-            name,
-            email,
-            bookingDate,
-            selectedService,
-            address,
-            postcode,
-            phone,
-            toilets,
-            bedrooms,
-            addonPrice,
-            totalPrice,
-            products,
-            stripeData,
-            paidStatus,
-            jobStatus
+//     try {
+//         const {
+//             name,
+//             email,
+//             bookingDate,
+//             selectedService,
+//             address,
+//             postcode,
+//             phone,
+//             toilets,
+//             bedrooms,
+//             addonPrice,
+//             totalPrice,
+//             products,
+//             stripeData,
+//             paidStatus,
+//             jobStatus
         
-        } = req.body
-        const userId = req.userId
+//         } = req.body
+//         const userId = req.userId
 
-        const bookingObj = {
-            clientId: userId,
-            name,
-            email,
-            bookingDate,
-            selectedService,
-            address,
-            postcode,
-            phone,
-            toilets,
-            bedrooms,
-            addonPrice,
-            totalPrice,
-            products,
-            stripeData,
-            paidStatus,
-            jobStatus
-        }
-        const result = await insertBooking(bookingObj)
-        // result.paidStatus && await bookingEmailProcessor(bookingObj)
+//         const bookingObj = {
+//             clientId: userId,
+//             name,
+//             email,
+//             bookingDate,
+//             selectedService,
+//             address,
+//             postcode,
+//             phone,
+//             toilets,
+//             bedrooms,
+//             addonPrice,
+//             totalPrice,
+//             products,
+//             stripeData,
+//             paidStatus,
+//             jobStatus
+//         }
+//         const result = await insertBooking(bookingObj)
+//         // result.paidStatus && await bookingEmailProcessor(bookingObj)
 
-        if (result._id) {
-            await bookingEmailProcessor({ bookingObj })
-        }
+//         if (result._id) {
+//             await bookingEmailProcessor({ bookingObj })
+//         }
 
-        res.json({ status: "success", message: "New booking created successfully!!!" })
+//         res.json({ status: "success", message: "New booking created successfully!!!" })
 
+//     }
+//     catch (error) {
+//         res.json({ status: "error", message: "Unable to create new Booking, please try again latedr" })
+//     }
+// })
+
+//Add booking by quote
+router.post("/:_id", async (req, res) => {
+    try {
+      const userId = req.userId;
+      const {_id} = req.params
+      const sult = await getQuoteById(_id);
+      const lookingObj = sult[0]
+      const bookingObj = {
+        quote_id : lookingObj._id,
+        name: lookingObj.name,
+        email: lookingObj.email,
+        service: lookingObj.service,
+        bedrooms: lookingObj.bedrooms,
+        bathrooms: lookingObj.bathrooms,
+        products:lookingObj.products,
+        timelines:lookingObj.timelines,
+        notes:lookingObj.notes,
+        phone: lookingObj.phone,
+        subtotal: lookingObj.subtotal,
+        paid: lookingObj.paid,
+        invoice_inr: lookingObj.invoice_inr,
+        quoteReference: lookingObj.quoteReference,
+        quoteCreatedAt: lookingObj.createdAt,
+
+      }
+      
+      const result = await insertBooking(bookingObj)
+  
+      return res.json({
+        status: "success",
+        message:"Booking succesfully created",
+        bookingReference:result.bookingReference,
+      });
+    } catch (error) {
+      res.json({ status: "error", message: error });
     }
-    catch (error) {
-        res.json({ status: "error", message: "Unable to create new Booking, please try again latedr" })
-    }
-})
+  });
 
 // //Get all the Patients
 // router.get("/patient", userAuthorization, async (req, res) => {

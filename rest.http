@@ -4,12 +4,12 @@ POST http://localhost:3001/v1/customer
 Content-Type: application/json
 
 {
-     "name": "Shree Ram",
-    "email": "dfdd@gmail.com",
+     "name": "Menuka Ram",
+    "email": "menuka@gmail.com",
     "password": "Manakamana123",
     "phone": "04212121212",
-    "isCustomer": "true",
-    "isAdmin": "false"
+    "isCustomer": "false",
+    "isAdmin": "true"
 }
 
 ###Customer Sign In endpoint
