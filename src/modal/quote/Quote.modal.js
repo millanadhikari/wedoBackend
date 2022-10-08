@@ -6,7 +6,7 @@ const getQuotes = (clientId) => {
   return new Promise((resolve, reject) => {
     try {
       QuoteSchema
-        .find({}, { name: 1, email: 1, phone: 1, service: 1 })
+        .find({}, { name: 1, email: 1, phone: 1, service: 1, quoteReference: 1, quoteStatus: 1, subtotal: 1 })
         .then((data) => {
           resolve(data)
         })
@@ -139,13 +139,13 @@ const insertQuote = async (quoteObj) => {
     bedrooms: quoteObj.bedrooms,
     bathrooms: quoteObj.bathrooms,
     products: products,
-    timelines:[
+    timelines: [
       {
-        id:01,
-        title:'Quote Created',
-        date:new Date(),
-        createdBy:"Web",
-        icon:"AiOutlinePlusCircle"
+        id: 01,
+        title: 'Quote Created',
+        date: new Date(),
+        createdBy: "Web",
+        icon: "AiOutlinePlusCircle"
       }
     ],
     subtotal: await finalPrice(products),
@@ -154,7 +154,7 @@ const insertQuote = async (quoteObj) => {
     quoteReference: 'WD' + laya + 1
   }
   return new Promise((resolve, reject) => {
-    
+
     QuoteSchema(oldObj)
 
       .save()
@@ -180,13 +180,13 @@ const getQuoteById = (_id) => {
 };
 
 const updateQuote = (updateQuoteObj) => {
-let _id = updateQuoteObj._id
-console.log('bhaiya',updateQuoteObj)
+  let _id = updateQuoteObj._id
+  console.log('bhaiya', updateQuoteObj)
 
   return new Promise((resolve, reject) => {
     try {
       QuoteSchema.findOneAndUpdate(
-        {_id},
+        { _id },
         {
           $set: updateQuoteObj.updateQuoteObj
         },

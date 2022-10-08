@@ -57,6 +57,10 @@ const QuoteSchema = new Schema({
         type: Number,
         default: 12
     },
+    quoteStatus:{
+        type:String,
+        default:'Not Started'
+    },
     quoteReference: {
         type: String,
         default: 'WD'
