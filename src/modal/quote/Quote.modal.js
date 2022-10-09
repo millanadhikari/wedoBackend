@@ -6,7 +6,7 @@ const getQuotes = (clientId) => {
   return new Promise((resolve, reject) => {
     try {
       QuoteSchema
-        .find({}, { name: 1, email: 1, phone: 1, service: 1, quoteReference: 1, quoteStatus: 1, subtotal: 1 })
+        .find({}, { name: 1, email: 1, phone: 1, service: 1, quoteReference: 1, quoteStatus: 1, subtotal: 1, createdAt:1 })
         .then((data) => {
           resolve(data)
         })
