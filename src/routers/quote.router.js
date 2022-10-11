@@ -113,7 +113,7 @@ router.get("/all", async (req, res) => {
             limit: limit,
 
         }
-        let paginatedResults = result
+        let paginatedResults = result.reverse()
 
         if (search) {
             paginatedResults = tsearch(result)
