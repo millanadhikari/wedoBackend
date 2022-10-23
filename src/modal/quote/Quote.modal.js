@@ -6,7 +6,7 @@ const getQuotes = (clientId) => {
   return new Promise((resolve, reject) => {
     try {
       QuoteSchema
-        .find({}, { name: 1, email: 1, phone: 1, service: 1, quoteReference: 1, quoteStatus: 1, subtotal: 1, createdAt:1 })
+        .find({}, { firstName: 1, lastName:1, email: 1, phone: 1, service: 1, quoteReference: 1, quoteStatus: 1, subtotal: 1, createdAt: 1 })
         .then((data) => {
           resolve(data)
         })
@@ -22,123 +22,36 @@ const getQuotes = (clientId) => {
 const insertQuote = async (quoteObj) => {
   let maya = await getQuotes()
   laya = maya.length
+  let calculateProduct = quoteObj.products
 
-  const finalPrice = async (products) => {
+  const finalPrice = async () => {
     let mero = []
     let paisa = 0
-    await products.map((item) => {
+    await quoteObj.products.map((item) => {
       item.quantity > 0 &&
-        mero.push(item.quantity * item.amount)
+        mero.push(item.quantity * item.price)
     })
     paisa = mero.length > 0 && mero.reduce(function (acc, val) {
       return acc + val;
     });
-    // console.log(parseInt(paisa))
+    console.log(parseInt(paisa))
     return parseInt(paisa)
 
   }
-  const products = [
-    {
-      item: "TC 98",
-      description: "Bedrooms",
-      quantity: quoteObj.bedrooms,
-      amount: quoteObj.quantity > 1 ? 10000 : 15000
-    },
-    {
-      item: "TC 99",
-      description: "Bathrooms",
-      quantity: quoteObj.bathrooms,
-      amount: 6000
-    },
-    {
-      item: "TC 100",
-      description: "Balcony",
-      quantity: quoteObj.balcony,
-      amount: 4000
-    },
-
-    {
-      item: "TC 101",
-      description: "Separate Toilet",
-      quantity: quoteObj.separateToilet,
-      amount: 6000
-    },
-
-    {
-      item: "TC 102",
-      description: "Study Room",
-      quantity: quoteObj.studyRoom,
-      amount: 5000
-    },
-
-    {
-      item: "TC 103",
-      description: "Wall Wash",
-      quantity: quoteObj.wallWash,
-      amount: 5000
-    },
-
-    {
-      item: "TC 104",
-      description: "Fridge",
-      quantity: quoteObj.fridge,
-      amount: 6000
-    },
-
-    {
-      item: "TC 105",
-      description: "Garage",
-      quantity: quoteObj.garage,
-      amount: 6000
-    },
-
-    {
-      item: "TC 106",
-      description: "Blinds",
-      quantity: quoteObj.blinds,
-      amount: 6000
-    },
-
-    {
-      item: "TC 107",
-      description: "Steam Living",
-      quantity: quoteObj.steamLiving,
-      amount: 6000
-    },
-    {
-      item: "TC 108",
-      description: "Steam Bedroom",
-      quantity: quoteObj.steamBedroom,
-      amount: 6000
-    },
-    {
-      item: "TC 109",
-      description: "steamBedroom",
-      quantity: quoteObj.steamBedroom,
-      amount: 6000
-    },
-    {
-      item: "TC 110",
-      description: "steamStairs",
-      quantity: quoteObj.steamStairs,
-      amount: 6000
-    },
-    {
-      item: "TC 111",
-      description: "steamHallway",
-      quantity: quoteObj.steamHallway,
-      amount: 6000
-    },
-
-  ]
   const oldObj = {
-    name: quoteObj.name,
+    firstName: quoteObj.firstName,
+    lastName: quoteObj.lastName,
     email: quoteObj.email,
     phone: quoteObj.phone,
     service: quoteObj.service,
     bedrooms: quoteObj.bedrooms,
     bathrooms: quoteObj.bathrooms,
-    products: products,
+    address1: quoteObj.address1,
+    address2: quoteObj.address2,
+    city: quoteObj.city,
+    state: quoteObj.state,
+    postcode: quoteObj.postcode,
+    products: quoteObj.products,
     timelines: [
       {
         id: 01,
@@ -148,18 +61,19 @@ const insertQuote = async (quoteObj) => {
         icon: "AiOutlinePlusCircle"
       }
     ],
-    subtotal: await finalPrice(products),
+    subtotal: await finalPrice(),
     paid: 0,
     invoice_nr: 1234,
     quoteReference: 'WD' + laya + 1
   }
   return new Promise((resolve, reject) => {
-
+    console.log(oldObj)
     QuoteSchema(oldObj)
 
       .save()
       .then((data) => resolve(data))
       .catch(error => console.log(error))
+
 
   })
 

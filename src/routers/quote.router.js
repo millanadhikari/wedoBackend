@@ -19,52 +19,52 @@ router.all('/', (req, res, next) => {
 
 //Create new Quote
 router.post("/", async (req, res) => {
-    console.log(req.body)
-
+ const quoteObj = req.body
     try {
-        const {
-            fullName,
-            email,
-            phone,
-            service,
-            address,
-            bedrooms,
-            bathrooms,
-            balcony,
-            separateToilet,
-            studyRoom,
-            wallWash,
-            fridge,
-            garage,
-            blinds,
-            steamLiving,
-            steamHallway,
-            steamBedroom,
-            steamStairs,
+        
+        // const {
+        //     fullName,
+        //     email,
+        //     phone,
+        //     service,
+        //     address,
+        //     bedrooms,
+        //     bathrooms,
+        //     balcony,
+        //     separateToilet,
+        //     studyRoom,
+        //     wallWash,
+        //     fridge,
+        //     garage,
+        //     blinds,
+        //     steamLiving,
+        //     steamHallway,
+        //     steamBedroom,
+        //     steamStairs,
 
 
-        } = req.body
-        const userId = req.userId
+        // } = req.body
+        // const userId = req.userId
 
-        const quoteObj = {
-            name: fullName,
-            email,
-            phone,
-            service,
-            bedrooms,
-            bathrooms,
-            balcony,
-            separateToilet,
-            studyRoom,
-            wallWash,
-            fridge,
-            garage,
-            blinds,
-            steamLiving,
-            steamHallway,
-            steamBedroom,
-            steamStairs,
-        }
+        // const quoteObj = {
+        //     name: fullName,
+        //     email,
+        //     phone,
+        //     service,
+        //     bedrooms,
+        //     bathrooms,
+        //     balcony,
+        //     separateToilet,
+        //     studyRoom,
+        //     wallWash,
+        //     fridge,
+        //     garage,
+        //     blinds,
+        //     steamLiving,
+        //     steamHallway,
+        //     steamBedroom,
+        //     steamStairs,
+        // }
         const result = await insertQuote(quoteObj)
         // result.paidStatus && await bookingEmailProcessor(bookingObj)
 
@@ -172,7 +172,7 @@ router.get("/:_id", async (req, res) => {
 
         const clientId = req.userId;
         const result = await getQuoteById(_id);
-        
+
 
         return res.json({
             status: "success",
@@ -190,9 +190,9 @@ router.put("/:_id", async (req, res) => {
         const updateQuoteObj = req.body
         const { _id } = req.params;
 
-          const updatedBookingObj = {
+        const updatedBookingObj = {
             _id,
-             updateQuoteObj
+            updateQuoteObj
         }
 
 

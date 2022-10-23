@@ -4,7 +4,13 @@ const validator = require('validator')
 
 const QuoteSchema = new Schema({
 
-    name: {
+    firstName: {
+        type: String,
+        required: true,
+        maxlength: 50,
+        trim: true
+    },
+    lastName: {
         type: String,
         required: true,
         maxlength: 50,
@@ -12,7 +18,38 @@ const QuoteSchema = new Schema({
     },
 
 
+
     email: {
+        type: String,
+        trim: true,
+        lowercase: true,
+
+    },
+    address1: {
+        type: String,
+        trim: true,
+        lowercase: true,
+
+    },
+    address2: {
+        type: String,
+        trim: true,
+        lowercase: true,
+
+    },
+    city: {
+        type: String,
+        trim: true,
+        lowercase: true,
+
+    },
+    state: {
+        type: String,
+        trim: true,
+        lowercase: true,
+
+    },
+    postcode: {
         type: String,
         trim: true,
         lowercase: true,
@@ -39,7 +76,7 @@ const QuoteSchema = new Schema({
 
     ],
     timelines: [],
-    notes:[],
+    notes: [],
 
     phone: {
         type: String,
@@ -57,16 +94,16 @@ const QuoteSchema = new Schema({
         type: Number,
         default: 12
     },
-    quoteStatus:{
-        type:String,
-        default:'Not Started'
+    quoteStatus: {
+        type: String,
+        default: 'Not Started'
     },
     quoteReference: {
         type: String,
         default: 'WD'
     },
-    bookingReference:{
-        type:String
+    bookingReference: {
+        type: String
     },
 }, { timestamps: true })
 

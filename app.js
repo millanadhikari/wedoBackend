@@ -1,5 +1,5 @@
-const path = require ('path');
-require("dotenv").config({path: path.resolve(__dirname, './config.env')})
+const path = require('path');
+require("dotenv").config({ path: path.resolve(__dirname, './config.env') })
 
 
 const express = require('express');
@@ -36,6 +36,7 @@ const tokensRouter = require("./src/routers/tokens.router.js");
 const paymentRouter = require("./src/routers/stripe.router")
 const spaceRouter = require("./src/routers/space.router")
 const quoteRouter = require("./src/routers/quote.router")
+const productRouter = require("./src/routers/product.router")
 
 app.use("/v1/space", spaceRouter);
 app.use("/v1/booking", bookingRouter);
@@ -43,13 +44,14 @@ app.use("/v1/customer", customerRouter)
 app.use("/v1/tokens", tokensRouter);
 app.use("/v1/payment", paymentRouter);
 app.use("/v1/quote", quoteRouter)
+app.use("/v1/product", productRouter)
 
 
 
 
 
 app.use((req, res, next) => {
-    const error = new Error("Resources not found")    
+    const error = new Error("Resources not found")
     error.status = 404
     next(error)
 })
