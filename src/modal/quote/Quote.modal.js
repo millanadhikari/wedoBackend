@@ -6,7 +6,7 @@ const getQuotes = (clientId) => {
   return new Promise((resolve, reject) => {
     try {
       QuoteSchema
-        .find({}, { firstName: 1, lastName:1, email: 1, phone: 1, service: 1, quoteReference: 1, quoteStatus: 1, subtotal: 1, createdAt: 1 })
+        .find({}, { firstName: 1, lastName: 1, email: 1, phone: 1, service: 1, quoteReference: 1, quoteStatus: 1, subtotal: 1, createdAt: 1 })
         .then((data) => {
           resolve(data)
         })
@@ -127,4 +127,21 @@ const deleteQuote = ({ _id, clientId }) => {
     }
   });
 };
-module.exports = { insertQuote, getQuotes, getQuoteById, updateQuote, deleteQuote }
+
+const deleteQuotes = ({ _id, clientId }) => {
+  const objects = { ..._id }
+  return new Promise((resolve, reject) => {
+    try {
+      QuoteSchema.deleteMany({
+        _id: {
+          $in: _id
+        }
+      },)
+        .then((data) => console.log(data))
+        .catch((error) => reject(error));
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+module.exports = { insertQuote, getQuotes, getQuoteById, updateQuote, deleteQuote, deleteQuotes }

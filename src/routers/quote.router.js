@@ -2,7 +2,7 @@
 
 const express = require('express');
 const { userAuthorization } = require('../middlewares/authorization.middleware');
-const { getQuoteById, insertQuote, getQuotes, updateQuote, deleteQuote } = require('../modal/quote/Quote.modal');
+const { getQuoteById, insertQuote, getQuotes, updateQuote, deleteQuote, deleteQuotes } = require('../modal/quote/Quote.modal');
 const router = express.Router();
 const pdfService = require('../service/pdf-service')
 
@@ -19,52 +19,10 @@ router.all('/', (req, res, next) => {
 
 //Create new Quote
 router.post("/", async (req, res) => {
- const quoteObj = req.body
+    const quoteObj = req.body
     try {
-        
-        // const {
-        //     fullName,
-        //     email,
-        //     phone,
-        //     service,
-        //     address,
-        //     bedrooms,
-        //     bathrooms,
-        //     balcony,
-        //     separateToilet,
-        //     studyRoom,
-        //     wallWash,
-        //     fridge,
-        //     garage,
-        //     blinds,
-        //     steamLiving,
-        //     steamHallway,
-        //     steamBedroom,
-        //     steamStairs,
 
 
-        // } = req.body
-        // const userId = req.userId
-
-        // const quoteObj = {
-        //     name: fullName,
-        //     email,
-        //     phone,
-        //     service,
-        //     bedrooms,
-        //     bathrooms,
-        //     balcony,
-        //     separateToilet,
-        //     studyRoom,
-        //     wallWash,
-        //     fridge,
-        //     garage,
-        //     blinds,
-        //     steamLiving,
-        //     steamHallway,
-        //     steamBedroom,
-        //     steamStairs,
-        // }
         const result = await insertQuote(quoteObj)
         // result.paidStatus && await bookingEmailProcessor(bookingObj)
 
@@ -88,15 +46,21 @@ router.get("/all", async (req, res) => {
     const page = req.query.page
     const limit = req.query.limit
     const search = req.query.search
+    const filter = req.query.filter
+    console.log(filter)
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
     const keys = ["name", "email"]
     const tsearch = (data) => {
-        return data.filter((item) =>
-            keys.some((key) => item[key].toLowerCase().includes(search))
-        )
+        keys.some((key) => item[key].toLowerCase().includes(search))
     }
 
+    const tfilter = (result, filter) => {
+        let maya = []
+        console.log(result, filter)
+        result.map((item) => item.createdAt == filter && maya.push(item))
+        return maya
+    }
     try {
         const userId = req.userId;
         const result = await getQuotes(userId);
@@ -117,7 +81,12 @@ router.get("/all", async (req, res) => {
 
         if (search) {
             paginatedResults = tsearch(result)
-        } else {
+        }
+        // else if (filter !== "") {
+        //     paginatedResults = tfilter(result, filter)
+
+        // }
+        else {
             paginatedResults = result.slice(startIndex, endIndex)
         }
 
@@ -221,6 +190,24 @@ router.delete("/:_id", async (req, res) => {
         return res.json({
             status: "success",
             message: "The quote has been deleted",
+        });
+    } catch (error) {
+        res.json({ status: "error", message: error.message });
+    }
+});
+
+// Delete Many quote
+router.post("/deletequotes", async (req, res) => {
+    console.log(req.body)
+    try {
+        const clientId = req.userId;
+        const { _id } = req.body
+
+        const result = await deleteQuotes({ _id, clientId });
+
+        return res.json({
+            status: "success",
+            message: "All quotes has been deleted",
         });
     } catch (error) {
         res.json({ status: "error", message: error.message });
