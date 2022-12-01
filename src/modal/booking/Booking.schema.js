@@ -4,34 +4,54 @@ const validator = require('validator')
 
 
 const BookingSchema = new Schema({
-//    clientId: {
-//         type: Schema.Types.ObjectId
-//     },
-    name: {
+    firstName: {
         type: String,
         required: true,
         maxlength: 50,
         trim: true
     },
-    address : {
-        
+    lastName: {
+        type: String,
+        maxlength: 50,
+        trim: true
     },
-    stripeData:[],
     email: {
         type: String,
         trim: true,
         lowercase: true,
-        validate(value) {
-            if (!validator.isEmail(value)) {
-                throw new Error('Email is invalid')
-            }
-        }
-    },
-    bookingDate: {
-        type: String,
-        trim: true,
 
     },
+    address1: {
+        type: String,
+        trim: true,
+        lowercase: true,
+
+    },
+    address2: {
+        type: String,
+        trim: true,
+        lowercase: true,
+
+    },
+    city: {
+        type: String,
+        trim: true,
+        lowercase: true,
+
+    },
+    state: {
+        type: String,
+        trim: true,
+        lowercase: true,
+
+    },
+    postcode: {
+        type: String,
+        trim: true,
+        lowercase: true,
+
+    },
+
     service: {
         type: String,
         trim: true,
@@ -52,21 +72,10 @@ const BookingSchema = new Schema({
 
     ],
     timelines: [],
-    notes:[],
-
-    paidStatus: {
-        type: Boolean,
-        default: false
-    },
-    jobStatus: {
-        type: String,
-        maxlength: 30,
-        default: "Waiting for confirmation"
-    },
+    notes: [],
     phone: {
         type: String,
         maxlength: 30,
-      
     },
     subtotal: {
         type: Number,
@@ -80,42 +89,66 @@ const BookingSchema = new Schema({
         type: Number,
         default: 12
     },
+    bookingStatus: {
+        type: String,
+        default: 'Not Started'
+    },
     quoteReference: {
         type: String,
         default: 'WD'
     },
-    quote_id: {
+    startHour: {
         type: String,
-        
+        default: "09"
     },
-    quoteCreatedAt:{
-        type:String,
-        },
-    bookingReference:{
+    startMin: {
         type: String,
-        
+        default: "00"
     },
-    modifiers : [
+    startMode: {
+        type: String,
+        default: "AM"
+    },
+    endHour: {
+        type: String,
+        default: "12"
+    },
+    endMin: {
+        type: String,
+        default: "00"
+    },
+    endMode: {
+        type: String,
+        default: "PM"
+    },
+    bookingReference: {
+        type: String
+    },
+    bookingDate: {
+        type: Date,
+        default: ""
+    },
+    modifiers: [
         {
-           modifier: {
+            modifier: {
                 type: String,
-                maxlength : 1000,
+                maxlength: 1000,
                 default: "",
-                },
+            },
             modifiedAt: {
                 type: Date,
                 default: Date.now(),
 
-            updates: {
-                type: String,
-                maxlength : 1000,
-                default: "",        
+                updates: {
+                    type: String,
+                    maxlength: 1000,
+                    default: "",
                 },
             }
         }
     ]
 
-}, {timestamps:true})
+}, { timestamps: true })
 
 module.exports = {
     BookingSchema: mongoose.model("Booking", BookingSchema),

@@ -52,6 +52,12 @@ const insertQuote = async (quoteObj) => {
     state: quoteObj.state,
     postcode: quoteObj.postcode,
     products: quoteObj.products,
+    startHour: quoteObj.startHour,
+    startMin: quoteObj.startMin,
+    startMode: quoteObj.startMode,
+    endHour: quoteObj.endHour,
+    endMin: quoteObj.endMin,
+    endMode: quoteObj.endMode,
     timelines: [
       {
         id: 01,
@@ -64,6 +70,7 @@ const insertQuote = async (quoteObj) => {
     subtotal: await finalPrice(),
     paid: 0,
     invoice_nr: 1234,
+    bookingDate: quoteObj?.bookingDate ? quoteObj.bookingDate : new Date(),
     quoteReference: 'WD' + laya + 1
   }
   return new Promise((resolve, reject) => {
@@ -78,7 +85,6 @@ const insertQuote = async (quoteObj) => {
   })
 
 }
-
 
 
 const getQuoteById = (_id) => {
@@ -102,7 +108,7 @@ const updateQuote = (updateQuoteObj) => {
       QuoteSchema.findOneAndUpdate(
         { _id },
         {
-          $set: updateQuoteObj.updateQuoteObj
+          $set: updateQuoteObj
         },
 
         { new: true }

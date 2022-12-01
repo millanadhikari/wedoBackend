@@ -3,7 +3,8 @@ const router = express.Router();
 const { insertBooking, getBookings, getBookingById, updateBookingNotes } = require("../modal/booking/Booking.modal")
 const { userAuthorization } = require("../middlewares/authorization.middleware")
 const { bookingEmailProcessor } = require("../helpers/email.helper");
-const { getQuoteById } = require('../modal/quote/Quote.modal');
+const { getQuoteById, updateQuote } = require('../modal/quote/Quote.modal');
+const connectDB = require('../db/mongoose');
 
 router.all('/', (req, res, next) => {
 
@@ -36,7 +37,7 @@ router.all('/', (req, res, next) => {
 //             stripeData,
 //             paidStatus,
 //             jobStatus
-        
+
 //         } = req.body
 //         const userId = req.userId
 
@@ -76,40 +77,99 @@ router.all('/', (req, res, next) => {
 //Add booking by quote
 router.post("/:_id", async (req, res) => {
     try {
-      const userId = req.userId;
-      const {_id} = req.params
-      const sult = await getQuoteById(_id);
-      const lookingObj = sult[0]
-      const bookingObj = {
-        quote_id : lookingObj._id,
-        name: lookingObj.name,
-        email: lookingObj.email,
-        service: lookingObj.service,
-        bedrooms: lookingObj.bedrooms,
-        bathrooms: lookingObj.bathrooms,
-        products:lookingObj.products,
-        timelines:lookingObj.timelines,
-        notes:lookingObj.notes,
-        phone: lookingObj.phone,
-        subtotal: lookingObj.subtotal,
-        paid: lookingObj.paid,
-        invoice_inr: lookingObj.invoice_inr,
-        quoteReference: lookingObj.quoteReference,
-        quoteCreatedAt: lookingObj.createdAt,
+        const userId = req.userId;
+        const { _id } = req.params
+        const sult = await getQuoteById(_id);
+        const lookingObj = sult[0]
+        //   const bookingObj = {
+        //     quote_id : lookingObj._id,
+        //     name: lookingObj.name,
+        //     email: lookingObj.email,
+        //     service: lookingObj.service,
+        //     bedrooms: lookingObj.bedrooms,
+        //     bathrooms: lookingObj.bathrooms,
+        //     products:lookingObj.products,
+        //     timelines:lookingObj.timelines,
+        //     notes:lookingObj.notes,
+        //     phone: lookingObj.phone,
+        //     subtotal: lookingObj.subtotal,
+        //     paid: lookingObj.paid,
+        //     invoice_inr: lookingObj.invoice_inr,
+        //     quoteReference: lookingObj.quoteReference,
+        //     quoteCreatedAt: lookingObj.createdAt,
 
-      }
-      
-      const result = await insertBooking(bookingObj)
-  
-      return res.json({
-        status: "success",
-        message:"Booking succesfully created",
-        bookingReference:result.bookingReference,
-      });
+        //   }
+
+        const bookingObj = {
+            quote_id: lookingObj._id,
+            firstName: lookingObj.firstName,
+            lastName: lookingObj?.lastName,
+            email: lookingObj.email,
+            service: lookingObj.service,
+            address1: lookingObj.address1,
+            address2: lookingObj.address2,
+            city: lookingObj.city,
+            state: lookingObj.state,
+            postcode: lookingObj.postcode,
+            bookingStatus: "Not Started",
+            bookingDate: lookingObj.bookingDate,
+            bedrooms: lookingObj.bedrooms,
+            bathrooms: lookingObj.bathrooms,
+            products: lookingObj.products,
+            timelines: [
+                ...lookingObj.timelines,
+                {
+                    id: 02,
+                    title: 'Booking Created',
+                    date: new Date(),
+                    createdBy: "Admin",
+                    icon: "AiOutlinePlusCircle"
+                }],
+            notes: lookingObj.notes,
+            phone: lookingObj.phone,
+            subtotal: lookingObj.subtotal,
+            paid: lookingObj.paid,
+            invoice_inr: lookingObj.invoice_inr,
+            quoteReference: lookingObj.quoteReference,
+            quoteCreatedAt: lookingObj.createdAt,
+            startHour: lookingObj.startHour,
+            startMin: lookingObj.startMin,
+            startMode: lookingObj.startMode,
+            endHour: lookingObj.endHour,
+            endMin: lookingObj.endMin,
+            endMode: lookingObj.endMode,
+
+
+
+        }
+
+        const updatedQuotesObj = {
+            _id,
+            quoteStatus: 'Scheduled',
+            timelines: [
+                ...lookingObj.timelines,
+                {
+                    id: 02,
+                    title: 'Booking Created',
+                    date: new Date(),
+                    createdBy: "Admin",
+                    icon: "AiOutlinePlusCircle"
+                }],
+        }
+
+        const result = await insertBooking(bookingObj)
+
+        updateQuote(updatedQuotesObj);
+
+        return res.json({
+            status: "success",
+            message: "Booking succesfully created",
+            bookingReference: result.bookingReference,
+        });
     } catch (error) {
-      res.json({ status: "error", message: error });
+        res.json({ status: "error", message: error });
     }
-  });
+});
 
 // //Get all the Patients
 // router.get("/patient", userAuthorization, async (req, res) => {

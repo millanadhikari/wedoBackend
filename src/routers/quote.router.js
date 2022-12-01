@@ -47,19 +47,13 @@ router.get("/all", async (req, res) => {
     const limit = req.query.limit
     const search = req.query.search
     const filter = req.query.filter
-    console.log(filter)
+    console.log(search)
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
-    const keys = ["name", "email"]
-    const tsearch = (data) => {
-        keys.some((key) => item[key].toLowerCase().includes(search))
-    }
+    const keys = ["firstName", "email"]
 
-    const tfilter = (result, filter) => {
-        let maya = []
-        console.log(result, filter)
-        result.map((item) => item.createdAt == filter && maya.push(item))
-        return maya
+    const tsearch = () => {
+        keys.some((key) => item[key].toLowerCase().includes(search))
     }
     try {
         const userId = req.userId;
@@ -79,16 +73,21 @@ router.get("/all", async (req, res) => {
         }
         let paginatedResults = result.reverse()
 
+
+        // const tfilter = (result, filter) => {
+        //     let maya = []
+        //     console.log(result, filter)
+        //     result.map((item) => item.createdAt == filter && maya.push(item))
+        //     return maya
+        // }
         if (search) {
             paginatedResults = tsearch(result)
         }
-        // else if (filter !== "") {
-        //     paginatedResults = tfilter(result, filter)
 
-        // }
         else {
             paginatedResults = result.slice(startIndex, endIndex)
         }
+
 
 
         totalPages = Math.ceil(result.length / limit)

@@ -102,9 +102,40 @@ const QuoteSchema = new Schema({
         type: String,
         default: 'WD'
     },
+    quote_id:{
+        type:String,
+    },
+    startHour: {
+        type: String,
+        default: "09"
+    },
+    startMin: {
+        type: String,
+        default: "00"
+    },
+    startMode: {
+        type: String,
+        default: "AM"
+    },
+    endHour: {
+        type: String,
+        default: "12"
+    },
+    endMin: {
+        type: String,
+        default: "00"
+    },
+    endMode: {
+        type: String,
+        default: "PM"
+    },
     bookingReference: {
         type: String
     },
+    bookingDate: {
+        type: Date,
+        default: ""
+    }
 }, { timestamps: true })
 
 module.exports = {
