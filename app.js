@@ -28,7 +28,9 @@ app.use(morgan("tiny"));
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
-        origin: "https://wedo-backend.herokuapp.com"
+        origin: ["http://localhost:3000","www.wedocleaning.com.au" ]
+        // origin: "https://wedo-backend.herokuapp.com"
+
     }
 });
 
