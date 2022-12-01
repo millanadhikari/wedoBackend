@@ -27,9 +27,7 @@ app.use(morgan("tiny"));
 //creating socket.io server
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-    allowRequest: (req, callback) => {
-        callback(null, req.headers.origin === undefined); // cross-origin requests will not be allowed
-    }
+    origins: ["https://www.wedocleaning.com.au"]
 
 
 });
