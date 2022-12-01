@@ -29,7 +29,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
        
-        // origin: "https://wedo-backend.herokuapp.com"
+        origins: ["https://wedocleaning.com.au", "http://localhost:3000"]
 
     }
 });
