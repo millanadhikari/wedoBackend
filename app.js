@@ -28,7 +28,8 @@ app.use(morgan("tiny"));
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
    cors:  {
-    origins: ["https://www.wedocleaning.com.au", "http://localhost:3000"]
+    origin: '*',
+    
    }
 
 
