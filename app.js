@@ -27,7 +27,9 @@ app.use(morgan("tiny"));
 //creating socket.io server
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-    origins: ["https://www.wedocleaning.com.au"]
+   cors:  {
+    origins: ["https://www.wedocleaning.com.au", "http://localhost:3000"]
+   }
 
 
 });
