@@ -20,9 +20,9 @@ connectDB();
 //middlewares
 app.use(helmet())
 app.use(express.json())
-app.use(cors(({
-    origin:"http://localhost:3000"
-})));
+// app.use(cors(({
+//     origin: "http://localhost:3000"
+// })));
 
 app.use(morgan("tiny"));
 
@@ -30,7 +30,7 @@ app.use(morgan("tiny"));
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
-        origin: [/\.wedocleaning\.com.au$/],
+        origin: [/\.wedocleaning\.com.au$/, "http://localhost:3000"],
         methods: ["GET", "POST", "DELETE", "PUT"],
 
     }
