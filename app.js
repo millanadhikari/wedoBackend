@@ -27,18 +27,9 @@ app.use(morgan("tiny"));
 //creating socket.io server
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-    cors: {
-        origin: [/\.wedocleaning\.com.au$/, "http://localhost:3000"],
-
-        handlePreflightRequest: (req, res) => {
-            res.WriteHead(200, {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET, POST, DELETE, PUT",
-                "Access-Control-Allow-Headers": "my-custom-header",
-                "Access-Control-Allow-Credentails": true,
-            })
-            res.end()
-        }
+    allowRequest: (req, cb) => {
+        const isAllowed = req.headers.origin === 'https://wedocleaning.com.au';
+        cb(null, isAllowed);
     }
 
 
