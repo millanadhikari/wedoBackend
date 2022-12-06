@@ -25,56 +25,56 @@ app.use(cors());
 app.use(morgan("tiny"));
 
 //creating socket.io server
-const httpServer = createServer(app);
-const io = new Server(httpServer, {
-    allowRequest: (req, cb) => {
-        const isAllowed = req.headers.origin === 'https://wedocleaning.com.au';
-        cb(null, isAllowed);
-    }
+// const httpServer = createServer(app);
+// const io = new Server(httpServer, {
+//     allowRequest: (req, cb) => {
+//         const isAllowed = req.headers.origin === 'https://wedocleaning.com.au';
+//         cb(null, isAllowed);
+//     }
 
 
-});
+// });
 
-let onlineUsers = []
+// let onlineUsers = []
 
-const addNewUser = (userId, socketId) => {
-    !onlineUsers.some((user) => user.userId === userId) &&
-        onlineUsers.push({ userId, socketId })
-    console.log(onlineUsers)
-}
+// const addNewUser = (userId, socketId) => {
+//     !onlineUsers.some((user) => user.userId === userId) &&
+//         onlineUsers.push({ userId, socketId })
+//     console.log(onlineUsers)
+// }
 
-const removeUser = (socketId) => {
-    onlineUsers = onlineUsers.filter((user) => user.socketId !== socketId)
+// const removeUser = (socketId) => {
+//     onlineUsers = onlineUsers.filter((user) => user.socketId !== socketId)
 
-}
+// }
 
-const getUser = (userId) => {
-    return onlineUsers.find((user) => user.userId === userId)
-}
+// const getUser = (userId) => {
+//     return onlineUsers.find((user) => user.userId === userId)
+// }
 
-io.on("connection", (socket) => {
+// io.on("connection", (socket) => {
 
-    socket.on("newUser", (userId) => {
-        console.log('hello puja')
-        addNewUser(userId, socket.id)
-    })
-    socket.on("sendNotification", ({ senderName, type }) => {
-        console.log(senderName, type)
-        io.emit("getNotification", {
-            senderName,
-            type
-        })
-    })
+//     socket.on("newUser", (userId) => {
+//         console.log('hello puja')
+//         addNewUser(userId, socket.id)
+//     })
+//     socket.on("sendNotification", ({ senderName, type }) => {
+//         console.log(senderName, type)
+//         io.emit("getNotification", {
+//             senderName,
+//             type
+//         })
+//     })
 
-    socket.on("sendEvent", ({ senderName, type, receiverName, socket }) => {
-        console.log('Event based', type, socket)
-    })
+//     socket.on("sendEvent", ({ senderName, type, receiverName, socket }) => {
+//         console.log('Event based', type, socket)
+//     })
 
-    socket.on("disconnect", () => {
-        console.log('disconnect hudai cha', socket.id)
-        removeUser(socket.id)
-    })
-});
+//     socket.on("disconnect", () => {
+//         console.log('disconnect hudai cha', socket.id)
+//         removeUser(socket.id)
+//     })
+// });
 
 
 
@@ -120,4 +120,6 @@ app.use((error, req, res, next) => {
 //Error handler 
 
 const handleError = require("./src/utils/errorHandler")
-httpServer.listen(port, () => console.log(`listening on localhost:${port}`))
+app.listen(port, () => console.log(`listening on localhost:${port}`))
+
+// httpServer.listen(port, () => console.log(`listening on localhost:${port}`))
