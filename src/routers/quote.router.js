@@ -73,6 +73,7 @@ router.get("/all", async (req, res) => {
         }
         let paginatedResults = result.reverse()
 
+            let milan = 12
 
         // const tfilter = (result, filter) => {
         //     let maya = []
