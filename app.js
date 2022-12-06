@@ -4,8 +4,8 @@ require("dotenv").config({ path: path.resolve(__dirname, './config.env') })
 
 const express = require('express');
 const cors = require('cors');
-const { createServer } = require("http");
-const { Server } = require("socket.io");
+// const { createServer } = require("http");
+// const { Server } = require("socket.io");
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const helmet = require('helmet')
