@@ -20,8 +20,9 @@ connectDB();
 //middlewares
 app.use(helmet())
 app.use(express.json())
-app.use(cors());
-
+app.use(cors({
+    origin: '*'
+}));
 app.use(morgan("tiny"));
 
 //creating socket.io server
