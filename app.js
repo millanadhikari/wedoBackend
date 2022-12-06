@@ -20,20 +20,26 @@ connectDB();
 //middlewares
 app.use(helmet())
 app.use(express.json())
-app.use(cors(({
-    origin: ["http://localhost:3000", "https://www.wedocleaning.com.au"]
-})));
+app.use(cors());
 
 app.use(morgan("tiny"));
 
 //creating socket.io server
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-    // cors: {
-    //     origin: [/\.wedocleaning\.com.au$/, "http://localhost:3000"],
-    //     methods: ["GET", "POST", "DELETE", "PUT"],
+    cors: {
+        origin: [/\.wedocleaning\.com.au$/, "http://localhost:3000"],
 
-    // }
+        handlePreflightRequest: (req, res) => {
+            res.WriteHead(200, {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, POST, DELETE, PUT",
+                "Access-Control-Allow-Headers": "my-custom-header",
+                "Access-Control-Allow-Credentails": true,
+            })
+            res.end()
+        }
+    }
 
 
 });
