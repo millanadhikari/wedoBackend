@@ -101,14 +101,14 @@ const getQuoteById = (_id) => {
 
 const updateQuote = (updateQuoteObj) => {
   let _id = updateQuoteObj._id
-  console.log('bhaiya', updateQuoteObj)
+  console.log('bhaiya', updateQuoteObj.updateQuoteObj)
 
   return new Promise((resolve, reject) => {
     try {
       QuoteSchema.findOneAndUpdate(
         { _id },
         {
-          $set: updateQuoteObj
+          $set: updateQuoteObj.updateQuoteObj
         },
 
         { new: true }
