@@ -25,6 +25,10 @@ const ProductSchema = new Schema({
     },
     icon2: {
         type: String
+    }, 
+    status:{
+        type:String,
+        default:'Inactive'
     }
 },
     { timestamps: true })
