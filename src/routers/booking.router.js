@@ -191,9 +191,17 @@ router.post("/:_id", async (req, res) => {
 router.get("/all", async (req, res) => {
     const page = req.query.page
     const limit = req.query.limit
-
+    const { search } = req.query
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
+    const keys = ["firstName", "email"]
+
+    const tsearch = (data) => {
+        return data.filter((item) =>
+            keys.some((key) => item[key].toLowerCase().includes(search.toLowerCase()))
+        );
+    };
+
     try {
         const userId = req.userId;
         const result = await getBookings(userId);
@@ -210,8 +218,24 @@ router.get("/all", async (req, res) => {
             limit: limit,
 
         }
-        paginatedResults = result.slice(startIndex, endIndex)
+
+        let paginatedResults = result.reverse()
+        if (search) {
+            paginatedResults = tsearch(result)
+
+        }
+
+        else {
+            paginatedResults = result.slice(startIndex, endIndex)
+        }
+
+
+
         totalPages = Math.ceil(result.length / limit)
+
+
+        // paginatedResults = result.slice(startIndex, endIndex)
+        // totalPages = Math.ceil(result.length / limit)
 
         return res.json({
             status: "success",
@@ -226,7 +250,7 @@ router.get("/all", async (req, res) => {
 });
 
 // Get a booking by its id
-router.get("/:_id", userAuthorization, async (req, res) => {
+router.get("/:_id",  async (req, res) => {
     const { _id } = req.params;
 
     try {
@@ -247,26 +271,32 @@ router.get("/:_id", userAuthorization, async (req, res) => {
 
 //Update booking details.
 
-router.put("/:_id", userAuthorization, async (req, res) => {
+router.put("/:_id", async (req, res) => {
     try {
-        const { modifier, updates, name, email, street, suburb, postcode, state, phone, bookingDate } = req.body
+        // const { modifier, updates, name, email, street, suburb, postcode, state, phone, bookingDate } = req.body
+        const updateBookingObj = req.body
         const { _id } = req.params;
 
         const userId = req.userId
 
+        
         const updatedBookingObj = {
-            clientId: _id,
-            name,
-            email,
-            street,
-            suburb,
-            postcode,
-            state,
-            phone,
-            bookingDate,
-            modifier,
-            updates
+            _id,
+            updateBookingObj
         }
+        // const updatedBookingObj = {
+        //     clientId: _id,
+        //     name,
+        //     email,
+        //     street,
+        //     suburb,
+        //     postcode,
+        //     state,
+        //     phone,
+        //     bookingDate,
+        //     modifier,
+        //     updates
+        // }
 
 
         const result = await updateBookingNotes(updatedBookingObj);

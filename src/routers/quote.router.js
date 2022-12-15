@@ -45,16 +45,19 @@ router.post("/", async (req, res) => {
 router.get("/all", async (req, res) => {
     const page = req.query.page
     const limit = req.query.limit
-    const search = req.query.search
+    const {search} = req.query
     const filter = req.query.filter
     console.log(search)
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
     const keys = ["firstName", "email"]
 
-    const tsearch = () => {
-        keys.some((key) => item[key].toLowerCase().includes(search))
-    }
+    const tsearch = (data) => {
+        return data.filter((item) =>
+        keys.some((key) => item[key].toLowerCase().includes(search.toLowerCase()))
+      );
+    };
+
     try {
         const userId = req.userId;
         const result = await getQuotes(userId);
@@ -73,7 +76,6 @@ router.get("/all", async (req, res) => {
         }
         let paginatedResults = result.reverse()
 
-            let milan = 12
 
         // const tfilter = (result, filter) => {
         //     let maya = []
@@ -81,8 +83,18 @@ router.get("/all", async (req, res) => {
         //     result.map((item) => item.createdAt == filter && maya.push(item))
         //     return maya
         // }
+        // const filterData = paginatedResults.filter(user => {
+        //     let isValid = true;
+        //     for (key in search) {
+        //         console.log(key, user[key], search[key]);
+        //         isValid = isValid && user[key] == search[key];
+        //     }
+        //     return isValid;
+        // });
+
         if (search) {
             paginatedResults = tsearch(result)
+         
         }
 
         else {
@@ -170,7 +182,7 @@ router.put("/:_id", async (req, res) => {
         if (result._id) {
             return res.json({
                 status: "success",
-                message: "your bookings updated",
+                message: "your quotes updated",
             });
         }
         res.json({ status: "error", message: "Unable to update your message please try again later" })

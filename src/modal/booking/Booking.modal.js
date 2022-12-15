@@ -21,7 +21,7 @@ const getBookings = (clientId) => {
   return new Promise((resolve, reject) => {
     try {
       BookingSchema
-        .find({}, { firstName: 1, email: 1, phone: 1 })
+        .find({}, { firstName: 1, lastName: 1, email: 1, phone: 1, service: 1, bookingReference: 1, bookingStatus: 1, subtotal: 1, createdAt: 1 })
         .then((data) => {
           resolve(data)
         })
@@ -45,13 +45,14 @@ const getBookingById = (_id) => {
 };
 
 const updateBookingNotes = (updateBookingObj) => {
+  let _id = updateBookingObj._id
 
   return new Promise((resolve, reject) => {
     try {
       BookingSchema.findOneAndUpdate(
-        updateBookingObj._id,
+        {_id},
         {
-          $set: updateBookingObj
+          $set: updateBookingObj.updateBookingObj
         },
 
         { new: true }

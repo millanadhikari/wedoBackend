@@ -18,7 +18,6 @@ const QuoteSchema = new Schema({
     },
 
 
-
     email: {
         type: String,
         trim: true,

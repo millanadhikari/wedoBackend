@@ -52,13 +52,10 @@ const getCustomerByEmail = email => {
         return new Promise((resolve, reject) => {
             if(!_id) return false
             try {
-                CustomerSchema.findOne({_id}, (error, data) => {
-                    if(error) {
-                        console.log(error)
-                       reject(error)
-                    }
+                CustomerSchema.findOne({_id}, {_id, firstName: 1, lastName: 1, email: 1, phone: 1, isAdmin:1, isCustomer:1,}) 
+                  .then((data) => {
                     resolve(data)
-                    });
+                  })
             } catch (error) {
                 reject(error)
             }

@@ -20,16 +20,16 @@ router.post('/login', async (req, res) => {
     const user = await getCustomerByEmail(email)
 
     // if (!user.isVerified) {
-	// 	return res.json({
-	// 		status: "error",
-	// 		message:
-	// 			"You account has not been verified. Please check your email and verify you account before able to login!",
-	// 	});
-	// }
+    // 	return res.json({
+    // 		status: "error",
+    // 		message:
+    // 			"You account has not been verified. Please check your email and verify you account before able to login!",
+    // 	});
+    // }
 
 
-    if(!user) {
-        return res.json({status:"error", message:"Invalid Email"})
+    if (!user) {
+        return res.json({ status: "error", message: "Invalid Email" })
     }
 
     const passFromDb = user && user.id ? user.password : null
@@ -68,15 +68,16 @@ router.get("/", userAuthorization, async (req, res) => {
     console.log(userProf)
     res.json({
         user: {
-            _id,
-            name,
-            email,
-            isAdmin,
-            isCustomer,
-            address,
-            phone,
-            suburb,
-            postcode
+            // _id,
+            // name,
+            // email,
+            // isAdmin,
+            // isCustomer,
+            // address,
+            // phone,
+            // suburb,
+            // postcode
+            ...userProf
 
         },
     });
@@ -86,12 +87,13 @@ router.get("/", userAuthorization, async (req, res) => {
 
 // User Sign up with Email and Password
 router.post('/', async (req, res) => {
-    const { name, phone, email, password, isCustomer, isAdmin } = req.body
+    const { firstName, lastName, phone, email, password, isCustomer, isAdmin } = req.body
     try {
         //hash password
         const hashPass = await hashPassword(password)
         const newUserObj = {
-            name,
+            firstName,
+            lastName,
             phone,
             email,
             password: hashPass,
@@ -221,7 +223,7 @@ router.delete("/logout", userAuthorization, async (req, res) => {
 })
 
 
-router.put("/:_id",  async (req, res) => {
+router.put("/:_id", async (req, res) => {
     console.log(req.body)
     try {
         const { name, email, street, suburb, postcode, state, address, mobile } = req.body

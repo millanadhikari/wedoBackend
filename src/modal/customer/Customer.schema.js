@@ -5,7 +5,13 @@ const validator = require('validator')
 
 
 const CustomerSchema = new Schema({
-    name: {
+    firstName: {
+        type: String,
+        required: true,
+        maxlength: 50,
+        trim: true
+    },
+    lastName: {
         type: String,
         required: true,
         maxlength: 50,
@@ -36,20 +42,20 @@ const CustomerSchema = new Schema({
     phone: {
         type: Number,
         required: true,
-        default:0,
+        default: 0,
         validate(value) {
             if (value = 0) {
                 throw new Error('Phone number is not valid')
 
             }
         }
-    }, 
+    },
     refreshJWT: {
         token: {
             type: String,
             maxlength: 500,
             default: ''
-        }, 
+        },
         addedAt: {
             type: Date,
             required: true,
@@ -60,33 +66,49 @@ const CustomerSchema = new Schema({
         type: Boolean,
         required: true,
         default: false,
-      },
-      isAdmin: {
+    },
+    isAdmin: {
         type: Boolean,
         default: false,
-      },
-      isCustomer: {
+    },
+    isCustomer: {
         type: Boolean,
         default: true,
-      },
-      address:{
+    },
+    address: {
         type: String,
         trim: true,
 
-      },
-      postcode:{
+    },
+    postcode: {
         type: String,
         trim: true,
 
-      },
-    
-      state:{
+    },
+
+    address: {
         type: String,
         trim: true,
 
-      }
+    },
+    state: {
+        type: String,
+        trim: true,
+
+    },
+
+    postcode: {
+        type: String,
+        trim: true,
+
+    },
+    username: {
+        type: String,
+        trim: true,
+
+    }
 })
 
 module.exports = {
-    CustomerSchema:mongoose.model('Customer', CustomerSchema)
+    CustomerSchema: mongoose.model('Customer', CustomerSchema)
 }

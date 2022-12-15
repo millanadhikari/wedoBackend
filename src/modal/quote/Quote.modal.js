@@ -101,7 +101,7 @@ const getQuoteById = (_id) => {
 
 const updateQuote = (updateQuoteObj) => {
   let _id = updateQuoteObj._id
-  console.log('bhaiya', updateQuoteObj.updateQuoteObj)
+
 
   return new Promise((resolve, reject) => {
     try {

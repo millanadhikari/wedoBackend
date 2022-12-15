@@ -1,5 +1,4 @@
 const handleError = (error, res) => {
-
     console.log(error)
     res.status(error.status || 500)
     res.json({
@@ -7,4 +6,4 @@ const handleError = (error, res) => {
     })
 }
 
-module.exports= handleError;
+module.exports = handleError;
