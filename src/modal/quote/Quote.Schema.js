@@ -131,10 +131,16 @@ const QuoteSchema = new Schema({
     bookingReference: {
         type: String
     },
+    customerNotes:{
+        type:String
+    },
     bookingDate: {
         type: Date,
         default: ""
-    }
+    }, 
+    totals:[
+        
+    ]
 }, { timestamps: true })
 
 module.exports = {

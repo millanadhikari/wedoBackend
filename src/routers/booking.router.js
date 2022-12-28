@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const { insertBooking, getBookings, getBookingById, updateBookingNotes } = require("../modal/booking/Booking.modal")
+const { insertBooking, getBookings, getBookingById, updateBookingNotes, deleteBooking, getBookingByFilter } = require("../modal/booking/Booking.modal")
 const { userAuthorization } = require("../middlewares/authorization.middleware")
 const { bookingEmailProcessor } = require("../helpers/email.helper");
 const { getQuoteById, updateQuote } = require('../modal/quote/Quote.modal');
@@ -192,6 +192,9 @@ router.get("/all", async (req, res) => {
     const page = req.query.page
     const limit = req.query.limit
     const { search } = req.query
+    const { bookingDate } = req.query
+    const { to } = req.query
+    const sort = {}
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
     const keys = ["firstName", "email"]
@@ -202,11 +205,13 @@ router.get("/all", async (req, res) => {
         );
     };
 
+
+
     try {
         const userId = req.userId;
-        const result = await getBookings(userId);
 
-
+        const result = bookingDate ? await getBookingByFilter(bookingDate, to) : await getBookings(userId)
+        console.log('maya', result)
         next = {
             page: page * 1 + 1,
             limit: limit,
@@ -219,14 +224,14 @@ router.get("/all", async (req, res) => {
 
         }
 
-        let paginatedResults = result.reverse()
+        let paginatedResults = result.length > 1 ? result.reverse() : result
         if (search) {
             paginatedResults = tsearch(result)
 
         }
 
         else {
-            paginatedResults = result.slice(startIndex, endIndex)
+            paginatedResults = result.length > 1 ? result.slice(startIndex, endIndex) : result
         }
 
 
@@ -250,7 +255,7 @@ router.get("/all", async (req, res) => {
 });
 
 // Get a booking by its id
-router.get("/:_id",  async (req, res) => {
+router.get("/:_id", async (req, res) => {
     const { _id } = req.params;
 
     try {
@@ -279,7 +284,7 @@ router.put("/:_id", async (req, res) => {
 
         const userId = req.userId
 
-        
+
         const updatedBookingObj = {
             _id,
             updateBookingObj
@@ -309,6 +314,22 @@ router.put("/:_id", async (req, res) => {
         }
         res.json({ status: "error", message: "Unable to update your message please try again later" })
 
+    } catch (error) {
+        res.json({ status: "error", message: error.message });
+    }
+});
+//delete a booking
+router.delete("/:_id", async (req, res) => {
+    try {
+        const { _id } = req.params;
+        const clientId = req.userId;
+
+        const result = await deleteBooking({ _id, clientId });
+
+        return res.json({
+            status: "success",
+            message: "The quote has been deleted",
+        });
     } catch (error) {
         res.json({ status: "error", message: error.message });
     }

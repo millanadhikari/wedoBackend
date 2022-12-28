@@ -68,7 +68,7 @@ router.get("/", userAuthorization, async (req, res) => {
     console.log(userProf)
     res.json({
         user: {
-            // _id,
+         
             // name,
             // email,
             // isAdmin,

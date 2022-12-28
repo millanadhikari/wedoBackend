@@ -32,6 +32,24 @@ const getBookings = (clientId) => {
     }
   })
 }
+const getBookingByFilter = (bookingDate, to) => {
+  console.log('hy', bookingDate.slice(0, bookingDate.length + 1))
+  let lx = '2022-12-30'
+  let tomorrow = new Date(bookingDate)
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  return new Promise((resolve, reject) => {
+    try {
+      BookingSchema.find({
+        bookingDate: { $gte: bookingDate, $lte: to }
+      })
+        .then((data) => resolve(data))
+        .catch((error) => reject(error));
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 const getBookingById = (_id) => {
   return new Promise((resolve, reject) => {
     try {
@@ -46,11 +64,11 @@ const getBookingById = (_id) => {
 
 const updateBookingNotes = (updateBookingObj) => {
   let _id = updateBookingObj._id
-
+  console.log(updateBookingObj)
   return new Promise((resolve, reject) => {
     try {
       BookingSchema.findOneAndUpdate(
-        {_id},
+        { _id },
         {
           $set: updateBookingObj.updateBookingObj
         },
@@ -66,9 +84,22 @@ const updateBookingNotes = (updateBookingObj) => {
   });
 };
 
+const deleteBooking = ({ _id, clientId }) => {
+  return new Promise((resolve, reject) => {
+    try {
+      BookingSchema.findOneAndDelete({ _id, clientId })
+        .then((data) => resolve(data))
+        .catch((error) => reject(error));
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 
-module.exports = { insertBooking, getBookings, getBookingById, updateBookingNotes }
+
+
+module.exports = { getBookingByFilter, insertBooking, getBookings, getBookingById, updateBookingNotes, deleteBooking }
 
 
 

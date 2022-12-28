@@ -6,7 +6,7 @@ const getQuotes = (clientId) => {
   return new Promise((resolve, reject) => {
     try {
       QuoteSchema
-        .find({}, { firstName: 1, lastName: 1, email: 1, phone: 1, service: 1, quoteReference: 1, quoteStatus: 1, subtotal: 1, createdAt: 1 })
+        .find({}, { firstName: 1, lastName: 1, address1: 1, address2: 1, city: 1, state: 1, postcode: 1, email: 1, phone: 1, service: 1, quoteReference: 1, quoteStatus: 1, subtotal: 1, createdAt: 1 })
         .then((data) => {
           resolve(data)
         })
@@ -71,7 +71,45 @@ const insertQuote = async (quoteObj) => {
     paid: 0,
     invoice_nr: 1234,
     bookingDate: quoteObj?.bookingDate ? quoteObj.bookingDate : new Date(),
-    quoteReference: 'WD' + laya + 1
+    quoteReference: 'WD' + laya + 1,
+    totals: [
+      {
+        _id: 1,
+        title: 'Base Price',
+        amount: 0,
+        quantity: 0
+      },
+      {
+        _id: 2,
+        title: '1 Bathroom',
+        amount: 0,
+        quantity: 0
+      },
+      {
+        _id: 3,
+        title: '1 Bedroom',
+        amount: 100,
+        quantity: 0
+      },
+      {
+        _id: 4,
+        title: 'Extras',
+        amount: 0,
+        quantity: 0
+      },
+      {
+        _id: 5,
+        title: 'Tip',
+        amount: 0,
+        quantity: 0
+      },
+      {
+        _id: 6,
+        title: 'To be paid by customer',
+        amount: 0,
+        quantity: 0
+      }
+    ]
   }
   return new Promise((resolve, reject) => {
     console.log(oldObj)
