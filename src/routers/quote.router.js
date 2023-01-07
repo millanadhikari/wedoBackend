@@ -45,7 +45,7 @@ router.post("/", async (req, res) => {
 router.get("/all", async (req, res) => {
     const page = req.query.page
     const limit = req.query.limit
-    const {search} = req.query
+    const { search } = req.query
     const filter = req.query.filter
     console.log(search)
     const startIndex = (page - 1) * limit
@@ -54,8 +54,8 @@ router.get("/all", async (req, res) => {
 
     const tsearch = (data) => {
         return data.filter((item) =>
-        keys.some((key) => item[key].toLowerCase().includes(search.toLowerCase()))
-      );
+            keys.some((key) => item[key].toLowerCase().includes(search.toLowerCase()))
+        );
     };
 
     try {
@@ -63,17 +63,17 @@ router.get("/all", async (req, res) => {
         const result = await getQuotes(userId);
 
 
-        next = {
-            page: page * 1 + 1,
-            limit: limit,
+        // next = {
+        //     page: page * 1 + 1,
+        //     limit: limit,
 
-        }
+        // }
 
-        previous = {
-            page: page - 1,
-            limit: limit,
+        // previous = {
+        //     page: page - 1,
+        //     limit: limit,
 
-        }
+        // }
         let paginatedResults = result.reverse()
 
 
@@ -94,7 +94,7 @@ router.get("/all", async (req, res) => {
 
         if (search) {
             paginatedResults = tsearch(result)
-         
+
         }
 
         else {
@@ -105,6 +105,17 @@ router.get("/all", async (req, res) => {
 
         totalPages = Math.ceil(result.length / limit)
 
+        next = {
+            page: page >= totalPages ? 0 : page * 1 + 1,
+            limit: limit,
+
+        }
+
+        previous = {
+            page: page <= 0 ? 0 : page - 1,
+            limit: limit,
+
+        }
 
         return res.json({
             status: "success",

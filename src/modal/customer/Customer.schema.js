@@ -50,6 +50,11 @@ const CustomerSchema = new Schema({
             }
         }
     },
+    profilePic: {
+        src: {
+            type: String
+        }
+    },
     refreshJWT: {
         token: {
             type: String,
@@ -77,32 +82,29 @@ const CustomerSchema = new Schema({
     },
     address: {
         type: String,
+        default:"",
         trim: true,
 
     },
     postcode: {
         type: String,
         trim: true,
+        default:"",
 
     },
 
     address: {
         type: String,
         trim: true,
-
+        default:"",
     },
     state: {
         type: String,
         trim: true,
-
+        default:"",
     },
 
-    postcode: {
-        type: String,
-        trim: true,
-
-    },
-    username: {
+     username: {
         type: String,
         trim: true,
 

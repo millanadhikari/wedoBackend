@@ -21,7 +21,7 @@ const getBookings = (clientId) => {
   return new Promise((resolve, reject) => {
     try {
       BookingSchema
-        .find({}, { firstName: 1, lastName: 1, email: 1, phone: 1, service: 1, bookingReference: 1, bookingStatus: 1, subtotal: 1, createdAt: 1 })
+        .find({}, { firstName: 1, lastName: 1, email: 1, phone: 1, service: 1, address1: 1, address: 2, city: 1, state: 1, postcode: 1, bookingReference: 1, bookingStatus: 1, subtotal: 1, createdAt: 1 })
         .then((data) => {
           resolve(data)
         })
@@ -42,6 +42,25 @@ const getBookingByFilter = (bookingDate, to) => {
       BookingSchema.find({
         bookingDate: { $gte: bookingDate, $lte: to }
       })
+        .then((data) => resolve(data))
+        .catch((error) => reject(error));
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+
+
+const getBookingByDesired = (filter, word) => {
+  let field = filter
+  let value = word
+  let liter = {}
+  liter[field] = value
+  return new Promise((resolve, reject) => {
+    try {
+      BookingSchema.find(liter
+      )
         .then((data) => resolve(data))
         .catch((error) => reject(error));
     } catch (error) {
@@ -99,7 +118,7 @@ const deleteBooking = ({ _id, clientId }) => {
 
 
 
-module.exports = { getBookingByFilter, insertBooking, getBookings, getBookingById, updateBookingNotes, deleteBooking }
+module.exports = { getBookingByFilter, insertBooking, getBookings, getBookingById, updateBookingNotes, deleteBooking, getBookingByDesired }
 
 
 

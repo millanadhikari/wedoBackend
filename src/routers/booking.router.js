@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const { insertBooking, getBookings, getBookingById, updateBookingNotes, deleteBooking, getBookingByFilter } = require("../modal/booking/Booking.modal")
+const { insertBooking, getBookings, getBookingById, updateBookingNotes, deleteBooking, getBookingByFilter, getBookingByDesired } = require("../modal/booking/Booking.modal")
 const { userAuthorization } = require("../middlewares/authorization.middleware")
 const { bookingEmailProcessor } = require("../helpers/email.helper");
 const { getQuoteById, updateQuote } = require('../modal/quote/Quote.modal');
@@ -193,6 +193,8 @@ router.get("/all", async (req, res) => {
     const limit = req.query.limit
     const { search } = req.query
     const { bookingDate } = req.query
+    const { filter } = req.query
+    const { word } = req.query
     const { to } = req.query
     const sort = {}
     const startIndex = (page - 1) * limit
@@ -208,21 +210,12 @@ router.get("/all", async (req, res) => {
 
 
     try {
+        let result = []
         const userId = req.userId;
 
-        const result = bookingDate ? await getBookingByFilter(bookingDate, to) : await getBookings(userId)
+        result = bookingDate ? await getBookingByFilter(bookingDate, to) : filter ? await getBookingByDesired(filter, word) : await getBookings(userId)
         console.log('maya', result)
-        next = {
-            page: page * 1 + 1,
-            limit: limit,
 
-        }
-
-        previous = {
-            page: page - 1,
-            limit: limit,
-
-        }
 
         let paginatedResults = result.length > 1 ? result.reverse() : result
         if (search) {
@@ -237,7 +230,17 @@ router.get("/all", async (req, res) => {
 
 
         totalPages = Math.ceil(result.length / limit)
+        next = {
+            page: page >= totalPages ? 0 : page * 1 + 1,
+            limit: limit,
 
+        }
+
+        previous = {
+            page: page <= 0 ? 0 : page - 1,
+            limit: limit,
+
+        }
 
         // paginatedResults = result.slice(startIndex, endIndex)
         // totalPages = Math.ceil(result.length / limit)
@@ -248,6 +251,27 @@ router.get("/all", async (req, res) => {
             totalPages,
             previous,
             paginatedResults
+        });
+    } catch (error) {
+        res.json({ status: "error", message: error.message });
+    }
+});
+
+// Get bookings counts api
+
+router.get("/counts", async (req, res) => {
+
+
+    try {
+
+        const result = await getBookings()
+
+
+        console.log(result)
+
+        return res.json({
+            status: "success",
+            result: result.length
         });
     } catch (error) {
         res.json({ status: "error", message: error.message });

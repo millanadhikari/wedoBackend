@@ -68,7 +68,7 @@ router.get("/", userAuthorization, async (req, res) => {
     console.log(userProf)
     res.json({
         user: {
-         
+
             // name,
             // email,
             // isAdmin,
@@ -224,32 +224,33 @@ router.delete("/logout", userAuthorization, async (req, res) => {
 
 
 router.put("/:_id", async (req, res) => {
-    console.log(req.body)
+    console.log('heri', req.body)
     try {
-        const { name, email, street, suburb, postcode, state, address, mobile } = req.body
+        // const { name, email, street, suburb, postcode, state, address, mobile } = req.body
         const { _id } = req.params;
+        console.log(_id)
+        const lama = req.body
+        // const updatedBookingObj = {
+        //     clientId: _id,
+        //     name,
+        //     email,
+        //     street,
+        //     suburb,
+        //     postcode,
+        //     state,
+        //     address,
+        //     mobile
+        // }
 
-        const userId = req.userId
 
-        const updatedBookingObj = {
-            clientId: _id,
-            name,
-            email,
-            street,
-            suburb,
-            postcode,
-            state,
-            address,
-            mobile
-        }
-
-
-        const result = await updateCustomerDetails(updatedBookingObj);
+        const result = await updateCustomerDetails(lama, _id);
+        // console.log('milan', result)
 
         if (result._id) {
             return res.json({
                 status: "success",
-                message: "your bookings updated",
+                message: "User updated",
+               
             });
         }
         res.status(300).json({ status: "error", message: "Unable to update your message please try again later" })
