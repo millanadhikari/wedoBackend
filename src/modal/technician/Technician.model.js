@@ -87,21 +87,17 @@ const getTechnicianByDesired = (filter, word) => {
 //     }
 //   })
 // }
-
-// const getCustomerById = async (_id) => {
-//   return new Promise((resolve, reject) => {
-//     if (!_id) return false
-//     try {
-//       CustomerSchema.findOne({ _id }, { _id, firstName: 1, lastName: 1, email: 1, phone: 1, profilePic: 1, isAdmin: 1, isCustomer: 1, username: 1, address: 1, state: 1, postcode: 1 })
-//         .then((data) => {
-//           resolve(data)
-//         })
-//     } catch (error) {
-//       reject(error)
-//     }
-
-//   })
-// }
+const getTechnicianById = (_id) => {
+  return new Promise((resolve, reject) => {
+    try {
+      TechnicianSchema.find({ _id })
+        .then((data) => resolve(data))
+        .catch((error) => reject(error));
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 // const verifyUser = (_id, email) => {
 //   return new Promise((resolve, reject) => {
@@ -166,7 +162,7 @@ module.exports = {
   updateTechnician,
   getAllTechnicians,
   getTechnicianByDesired,
-  // getCustomerByEmail,
+  getTechnicianById,
   // storeUserRefreshJWT,
   // getCustomerById,
   // verifyUser,

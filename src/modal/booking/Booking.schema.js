@@ -129,8 +129,10 @@ const BookingSchema = new Schema({
         default: ""
     },
     assignedTech: {
-        type:String
+        type: String
     },
+    
+    
     modifiers: [
         {
             modifier: {
@@ -149,7 +151,9 @@ const BookingSchema = new Schema({
                 },
             }
         }
-    ]
+    ],
+
+
 
 }, { timestamps: true })
 

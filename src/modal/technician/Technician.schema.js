@@ -53,7 +53,8 @@ const TechnicianSchema = new Schema({
 
     },
 
-    address: {
+    address
+    : {
         type: String,
         trim: true,
         default: "",
@@ -69,7 +70,6 @@ const TechnicianSchema = new Schema({
         trim: true,
 
     },
-    assigned:[]
 })
 
 module.exports = {

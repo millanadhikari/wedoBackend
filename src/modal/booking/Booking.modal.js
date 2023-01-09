@@ -21,7 +21,7 @@ const getBookings = (clientId) => {
   return new Promise((resolve, reject) => {
     try {
       BookingSchema
-        .find({}, { firstName: 1, assignedTech:1, lastName: 1, email: 1, phone: 1, service: 1, address1: 1, address: 2, city: 1, state: 1, postcode: 1, bookingReference: 1, bookingStatus: 1, subtotal: 1, bookingDate: 1 })
+        .find({}, { firstName: 1, assignedTech: 1, lastName: 1, email: 1, phone: 1, service: 1, address1:1, address2:1, city: 1, state: 1, postcode: 1, bookingReference: 1, bookingStatus: 1, assignedTech: 1, subtotal: 1, bookingDate: 1 })
         .then((data) => {
           resolve(data)
         })

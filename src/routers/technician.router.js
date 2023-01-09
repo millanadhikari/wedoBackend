@@ -4,7 +4,7 @@ const { userAuthorization } = require("../middlewares/authorization.middleware")
 
 
 const connectDB = require('../db/mongoose');
-const { insertTechnician, deleteTechnician, updateTechnician, getAllTechnicians, getTechnicianByDesired } = require('../modal/technician/Technician.model');
+const { insertTechnician, deleteTechnician, updateTechnician, getAllTechnicians, getTechnicianByDesired, getTechnicianById } = require('../modal/technician/Technician.model');
 
 
 //Create new technician
@@ -102,6 +102,26 @@ router.get('/all', async (req, res, next) => {
         res.json({ status: "error", message: error.message });
     }
 });
+
+router.get("/:_id", async (req, res) => {
+    const { _id } = req.params;
+
+    try {
+
+
+        const clientId = req.userId;
+        const result = await getTechnicianById(_id);
+
+
+        return res.json({
+            status: "success",
+            result,
+        });
+    } catch (error) {
+        res.json({ status: "error", message: error.message });
+    }
+});
+
 
 router.put("/:_id", async (req, res) => {
     try {
