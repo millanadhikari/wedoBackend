@@ -128,6 +128,9 @@ const BookingSchema = new Schema({
         type: Date,
         default: ""
     },
+    assignedTech: {
+        type:String
+    },
     modifiers: [
         {
             modifier: {

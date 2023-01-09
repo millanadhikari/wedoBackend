@@ -94,6 +94,7 @@ const quoteRouter = require("./src/routers/quote.router")
 const productRouter = require("./src/routers/product.router")
 const notificationRouter = require("./src/routers/notifications.router")
 const blogRouter = require("./src/routers/blog.router")
+const technicianRouter = require("./src/routers/technician.router")
 
 
 app.use("/v1/space", spaceRouter);
@@ -105,6 +106,8 @@ app.use("/v1/quote", quoteRouter)
 app.use("/v1/product", productRouter)
 app.use("/v1/notifications", notificationRouter)
 app.use("/v1/blog", blogRouter)
+app.use("/v1/technician", technicianRouter)
+
 
 
 

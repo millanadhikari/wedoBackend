@@ -1,5 +1,3 @@
-
-
 const express = require('express');
 const { userAuthorization } = require('../middlewares/authorization.middleware');
 const { getQuoteById, insertQuote, getQuotes, updateQuote, deleteQuote, deleteQuotes } = require('../modal/quote/Quote.modal');
