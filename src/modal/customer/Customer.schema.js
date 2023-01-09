@@ -80,7 +80,7 @@ const CustomerSchema = new Schema({
         type: Boolean,
         default: true,
     },
-    address: {
+    address1: {
         type: String,
         default:"",
         trim: true,
@@ -93,7 +93,7 @@ const CustomerSchema = new Schema({
 
     },
 
-    address: {
+    address2: {
         type: String,
         trim: true,
         default:"",

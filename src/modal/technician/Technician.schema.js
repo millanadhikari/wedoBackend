@@ -41,7 +41,8 @@ const TechnicianSchema = new Schema({
     },
     profilePic: {
         src: {
-            type: String
+            type: String,
+            default:""
         }
     },
 
