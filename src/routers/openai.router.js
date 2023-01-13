@@ -1,7 +1,7 @@
 const express = require('express');
 const { insertBlog, getBlog } = require('../modal/blog/Blog.modal');
 const router = express.Router();
-
+const {autoComplete} = require ('../openai/openAi')
 
 router.all('/', (req, res, next) => {
 
@@ -15,24 +15,24 @@ router.all('/', (req, res, next) => {
 
 //Create new blog
 router.post("/", async (req, res) => {
-    const blogObj = req.body
+    const question = req.body
     try {
 
 
-        const result = await insertBlog(blogObj)
+        const result = await autoComplete(question)
         // result.paidStatus && await bookingEmailProcessor(bookingObj)
 
-        if (result._id) {
-            res.json({ status: "success", message: "New Blog created successfully!!!" })
-        } else {
-            console.log(error)
-        }
+        // if (result._id) {
+        //     res.json({ status: "success", message: "New Blog created successfully!!!" })
+        // } else {
+        //     console.log(error)
+        // }
 
-        console.log(result)
+            res.json({ answer: result, message: "New Blog created successfully!!!" })
 
     }
     catch (error) {
-        res.json({ status: "error", message: "Unable to create new Blog, please try again latedr" })
+        res.json({ status: "error", message: "Unable to create new Blog, please try again later" })
     }
 })
 

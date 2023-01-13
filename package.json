@@ -23,6 +23,7 @@
     "morgan": "^1.10.0",
     "nodemailer": "^6.7.3",
     "nodemon": "^2.0.13",
+    "openai": "^3.1.0",
     "pdfkit": "^0.13.0",
     "querystring": "^0.2.1",
     "redis": "^3.1.2",
