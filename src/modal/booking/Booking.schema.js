@@ -73,6 +73,9 @@ const BookingSchema = new Schema({
     ],
     timelines: [],
     notes: [],
+    files: [
+
+    ],
     phone: {
         type: String,
         maxlength: 30,
@@ -128,11 +131,9 @@ const BookingSchema = new Schema({
         type: Date,
         default: ""
     },
-    assignedTech: {
-        type: String
-    },
-    
-    
+    assignedTech: [],
+
+
     modifiers: [
         {
             modifier: {

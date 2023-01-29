@@ -27,6 +27,7 @@ router.post("/", async (req, res) => {
     }
 })
 
+//Delete a technician
 router.delete("/:_id", async (req, res) => {
     try {
         const { _id } = req.params;
@@ -42,6 +43,8 @@ router.delete("/:_id", async (req, res) => {
         res.json({ status: "error", message: error.message });
     }
 });
+
+//Get all technicians by search, filter & pagination
 
 router.get('/all', async (req, res, next) => {
     const page = req.query.page
@@ -103,6 +106,8 @@ router.get('/all', async (req, res, next) => {
     }
 });
 
+//Get Technician by ID
+
 router.get("/:_id", async (req, res) => {
     const { _id } = req.params;
 
@@ -122,10 +127,11 @@ router.get("/:_id", async (req, res) => {
     }
 });
 
+//Edit Technician by ID
+
 
 router.put("/:_id", async (req, res) => {
     try {
-        // const { modifier, updates, name, email, street, suburb, postcode, state, phone, bookingDate } = req.body
         const updateTechObj = req.body
         const { _id } = req.params;
 

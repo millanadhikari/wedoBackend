@@ -83,7 +83,7 @@ const getBookingById = (_id) => {
 
 const updateBookingNotes = (updateBookingObj) => {
   let _id = updateBookingObj._id
-  console.log(updateBookingObj)
+  console.log('lamadev', updateBookingObj)
   return new Promise((resolve, reject) => {
     try {
       BookingSchema.findOneAndUpdate(

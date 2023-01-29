@@ -42,7 +42,7 @@ const TechnicianSchema = new Schema({
     profilePic: {
         src: {
             type: String,
-            default:""
+            default: ""
         }
     },
 
@@ -54,7 +54,7 @@ const TechnicianSchema = new Schema({
     },
 
     address
-    : {
+        : {
         type: String,
         trim: true,
         default: "",
@@ -70,6 +70,8 @@ const TechnicianSchema = new Schema({
         trim: true,
 
     },
+    completed: [],
+    internalNotes:[]
 })
 
 module.exports = {

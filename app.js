@@ -95,7 +95,7 @@ const productRouter = require("./src/routers/product.router")
 const notificationRouter = require("./src/routers/notifications.router")
 const openAiRouter = require("./src/routers/openai.router")
 const blogRouter = require("./src/routers/blog.router")
-const technicianRouter = require ("./src/routers/technician.router")
+const technicianRouter = require("./src/routers/technician.router")
 
 
 app.use("/v1/space", spaceRouter);
@@ -109,12 +109,6 @@ app.use("/v1/notifications", notificationRouter)
 app.use("/v1/blog", blogRouter)
 app.use("/v1/technician", technicianRouter)
 app.use("/v1/openai", openAiRouter)
-
-
-
-
-
-
 
 
 app.use((req, res, next) => {
