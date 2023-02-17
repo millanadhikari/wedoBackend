@@ -138,6 +138,7 @@ router.post("/:_id", async (req, res) => {
             endHour: lookingObj.endHour,
             endMin: lookingObj.endMin,
             endMode: lookingObj.endMode,
+            totals: lookingObj.totals
 
 
 

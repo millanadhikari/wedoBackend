@@ -72,44 +72,7 @@ const insertQuote = async (quoteObj) => {
     invoice_nr: 1234,
     bookingDate: quoteObj?.bookingDate ? quoteObj.bookingDate : new Date(),
     quoteReference: 'WD' + laya + 1,
-    totals: [
-      {
-        _id: 1,
-        title: 'Base Price',
-        amount: 0,
-        quantity: 0
-      },
-      {
-        _id: 2,
-        title: '1 Bathroom',
-        amount: 0,
-        quantity: 0
-      },
-      {
-        _id: 3,
-        title: '1 Bedroom',
-        amount: 100,
-        quantity: 0
-      },
-      {
-        _id: 4,
-        title: 'Extras',
-        amount: 0,
-        quantity: 0
-      },
-      {
-        _id: 5,
-        title: 'Tip',
-        amount: 0,
-        quantity: 0
-      },
-      {
-        _id: 6,
-        title: 'To be paid by customer',
-        amount: 0,
-        quantity: 0
-      }
-    ]
+    totals: quoteObj.totals
   }
   return new Promise((resolve, reject) => {
     console.log(oldObj)

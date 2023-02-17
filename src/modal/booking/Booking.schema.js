@@ -132,7 +132,7 @@ const BookingSchema = new Schema({
         default: ""
     },
     assignedTech: [],
-
+    totals:[],
 
     modifiers: [
         {
